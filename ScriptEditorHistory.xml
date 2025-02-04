@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?><script>toolbar = nuke.menu(&quot;Nodes&quot;)
+toolbar.addCommand(&quot;Merge/Premult&quot;, &quot;nuke.createNode('Premult')&quot;, &quot;[&quot;, icon=&quot;Premult.png&quot;)</script><script></script>

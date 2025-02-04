@@ -1,0 +1,8 @@
+Preferences {
+ inputs 0
+ name Preferences
+ selectedGPUDeviceName "NVIDIA GeForce GTX 1650"
+ trialOFXPlugins true
+ platformPathRemaps ""
+ defaultFlipbook "Flipbook Viewer"
+}
