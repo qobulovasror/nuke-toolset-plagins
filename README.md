@@ -16,7 +16,7 @@
 </p>
 
 
-<img src="https://github.com/user-attachments/assets/094ca0e4-c5f2-48f9-8074-9d3219ea5d8a.gif" >
+![Screen-Recording-2025-02-04-101747](https://github.com/user-attachments/assets/037030c1-18fa-48d5-a707-54b077ebd4ba)
 
 
 ## Plugins
@@ -77,10 +77,9 @@ USERNAME - is your system name
 
 ## License
 
-MIT
+[License MIT](https://github.com/qobulovasror/nuke-toolset-plagins/blob/master/LICENSE) 
 
 ---
-> [License](https://github.com/qobulovasror/nuke-toolset-plagins/blob/master/LICENSE) 
 > [qobulov.uz](https://www.qobulov.uz) &nbsp;&middot;&nbsp;
 > GitHub [@qobulovasror](https://github.com/qobulovasror) &nbsp;&middot;&nbsp;
 
