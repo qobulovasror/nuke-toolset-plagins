@@ -35,7 +35,10 @@
   - PxF_ScreenClean
 * NukeSurvivalToolkit - [More about](https://docs.google.com/document/d/1eyh2JIecaphItZeq0uuGxlqoASuXNQy1leJGqFI-EeU/edit?tab=t.0) and [Source](https://github.com/CreativeLyons/NukeSurvivalToolkit_publicRelease) 
 * Gizmos
-  - ColorDilate
+* Elias
+* V!ctor
+* SecondaryColourTools
+* MyTools
 
 
 ## hotkeys
@@ -53,6 +56,8 @@ file of hotkeys is .menu and You can add new keys or exit exsit keys
   - B   ——-> Blur
   - M   ——->  Merge
   - .   ——->  Dot
+  - SHIFT + T ——-> Tracker
+  - SHIFT + P ——-> PlanarTracker
 * Extended
   - SHIFT + T   ——->  Transform
   - C ————>    CameraTracker
