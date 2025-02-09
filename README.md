@@ -38,7 +38,7 @@
   - ColorDilate
 
 
-## Hotkeys for nodes
+## hotkeys
 
 file of hotkeys is .menu and You can add new keys or exit exsit keys
 
