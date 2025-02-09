@@ -1,0 +1,238 @@
+#! /home/rais/Nuke7.0v4/Nuke7.0 -nx
+version 7.0 v4
+Gizmo {
+ help "V!ctor 1.5v3\nV_IdFilter\n©2011 Victor Perez. All rights reserved\nwww.victorperez.co.uk"
+ tile_color 0x9e3c63ff
+ postage_stamp true
+ addUserKnob {20 V_IdFilter}
+ addUserKnob {4 operation t "channel mix operation" M {max sum ""}}
+ addUserKnob {6 clamp t "clamp values" -STARTLINE}
+ clamp true
+ addUserKnob {41 channels l "output matte" T Copy1.channels}
+}
+ Input {
+  inputs 0
+  name id
+  xpos -680
+  ypos -423
+ }
+set Ne698840 [stack 0]
+ Remove {
+  name Format0
+  xpos -680
+  ypos -374
+ }
+set Ne464c40 [stack 0]
+ Dot {
+  name Dot4
+  xpos -646
+  ypos -150
+ }
+ Dot {
+  name Dot10
+  xpos -566
+  ypos -150
+ }
+set Nffd91e0 [stack 0]
+ Dot {
+  name Dot9
+  xpos -406
+  ypos -150
+ }
+set Nda1e630 [stack 0]
+ Dot {
+  name Dot8
+  xpos -246
+  ypos -150
+ }
+set N12f9cb70 [stack 0]
+push $Ne698840
+ Dot {
+  name Dot5
+  xpos -486
+  ypos -420
+ }
+push $Ne464c40
+ Copy {
+  inputs 2
+  channels rgb
+  name Copy1
+  xpos -520
+  ypos -380
+ }
+ LayerContactSheet {
+  width {{parent.input.format.w i}}
+  height {{parent.input.format.h i}}
+  rows 1
+  columns 1
+  autodims false
+  name LayerOnRGBA
+  xpos -520
+  ypos -315
+ }
+set Ne815c50 [stack 0]
+ Remove {
+  operation keep
+  channels rgba
+  name KeepRGBA
+  xpos -520
+  ypos -279
+ }
+ Shuffle {
+  name RefreshRGBA
+  xpos -520
+  ypos -243
+ }
+ Dot {
+  name Dot7
+  xpos -486
+  ypos -204
+ }
+set Ne81b630 [stack 0]
+ Dot {
+  name Dot3
+  xpos -326
+  ypos -204
+ }
+set Ne8d19b0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -166
+  ypos -204
+ }
+set Nf6125e0 [stack 0]
+ Switch {
+  inputs 2
+  name BLUEbypass
+  xpos -200
+  ypos -117
+ }
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name BBBB
+  tile_color 0xffff
+  xpos -200
+  ypos -63
+ }
+set N1267d6d0 [stack 0]
+push $Nda1e630
+push $Ne8d19b0
+ Switch {
+  inputs 2
+  name GREENbypass
+  xpos -360
+  ypos -117
+ }
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name GGGG
+  tile_color 0xff00ff
+  xpos -360
+  ypos -63
+ }
+set Ne6a3b20 [stack 0]
+push 0
+push $Nffd91e0
+push $Ne81b630
+ Switch {
+  inputs 2
+  name REDbypass
+  xpos -520
+  ypos -117
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name RRRR
+  tile_color 0xff0000ff
+  xpos -520
+  ypos -63
+ }
+set Ne75a0a0 [stack 0]
+push $N12f9cb70
+ Dot {
+  name Dot6
+  xpos -86
+  ypos -150
+ }
+push $Nf6125e0
+ Dot {
+  name Dot1
+  xpos -6
+  ypos -204
+ }
+ Switch {
+  inputs 2
+  name ALPHAbypass
+  xpos -40
+  ypos -117
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name AAAA
+  tile_color 0xffffffff
+  xpos -40
+  ypos -63
+ }
+set N11652410 [stack 0]
+ Merge2 {
+  inputs 4+1
+  operation plus
+  name Merge2
+  xpos -360
+  ypos 9
+ }
+push $N1267d6d0
+push $Ne6a3b20
+push 0
+push $Ne75a0a0
+push $N11652410
+ Merge2 {
+  inputs 4+1
+  operation max
+  name Merge1
+  xpos -200
+  ypos 9
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation i}}
+  name operationSwitch
+  xpos -280
+  ypos 63
+ }
+ Clamp {
+  name Clamp
+  xpos -280
+  ypos 94
+  disable {{!parent.clamp i}}
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name AAAA1
+  tile_color 0xffffffff
+  xpos -280
+  ypos 135
+ }
+ Output {
+  name Output1
+  xpos -280
+  ypos 171
+ }
+push $Ne815c50
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos -280
+  ypos 195
+ }
+end_group
