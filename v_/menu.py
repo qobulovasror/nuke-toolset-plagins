@@ -16,7 +16,9 @@ import os
 import os.path
 global syspath
 
-cwd = 'C://Users/qobul/.nuke/v_'
+# cwd = 'C://Users/qobul/.nuke/v_'
+cwd = os.path.join(os.environ['USERPROFILE'], '.nuke', 'v_')
+
 files = os.listdir(cwd)
 
 fnames = []
