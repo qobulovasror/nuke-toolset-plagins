@@ -1,45 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><script>print(nuke.selectedNode().Class())
+<?xml version="1.0" encoding="UTF-8"?><script>import sys
 
-</script><script>print(nuke.selectedNode().name())</script><script>print(nuke.selectedNode())</script><script>def create_planar_tracker():
-    node = nuke.createNode('Roto')  # PlanarTracker aslida Roto bilan bog‘langan
-    node['toolbar'].setValue('PlanarTracker')  # Toolbar menyusini PlanarTracker'ga o'zgartirish
-    return node
+# Faqat Nuke Python kutubxonalarini ishlatish uchun boshqa yo‘llarni olib tashlaymiz
+sys.path = [p for p in sys.path if &quot;Python312&quot; not in p]
 
-# Hotkey qo‘shish
-toolbar = nuke.menu(&quot;Nodes&quot;)
-toolbar.addCommand(&quot;Transform/PlanarTracker2&quot;, &quot;create_planar_tracker()&quot;, &quot;p&quot;, icon=&quot;PlanarTracker.png&quot;)
-</script><script>def create_planar_tracker():
-    node = nuke.createNode('Roto')  # Roto node yaratamiz
-    node['rotoMode'].setValue(1)  # Uni PlanarTracker rejimiga o‘tkazamiz
-    return node
-
-# Hotkey qo‘shish
-toolbar = nuke.menu(&quot;Nodes&quot;)
-toolbar.addCommand(&quot;Transform/PlanarTracker3&quot;, &quot;create_planar_tracker()&quot;, &quot;p&quot;, icon=&quot;PlanarTracker.png&quot;)
-</script><script>nuke.createNode('PlanarTracker')</script><script>def create_planar_tracker():
-    node = nuke.createNode('Roto')  # Create a Roto node
-    node['rotoMode'].setValue(1)  # Set to PlanarTracker mode
-    node['output'].setValue('mask_planartrack.a')  # Select correct output mask
-    node['outputMask'].setValue('mask_planartrack.a')  # Ensure mask is selected
-
-    # Add PlanarTrackerLayer to the root
-    curves = node['curves']
-    root_layer = curves.rootLayer
-    planar_layer = curves.createLayer('PlanarTrackerLayer1')
-    root_layer.addLayer(planar_layer)
-
-    return node
-
-# Assign hotkey
-toolbar = nuke.menu(&quot;Nodes&quot;)
-toolbar.addCommand(&quot;Transform/PlanarTracker4&quot;, &quot;create_planar_tracker()&quot;, &quot;p&quot;, icon=&quot;PlanarTracker.png&quot;)
-</script><script># Get the existing Nuke &quot;Transform&quot; menu
-transform_menu = nuke.menu(&quot;Nodes&quot;).findItem(&quot;Transform&quot;)
-
-# If the menu exists, find the &quot;PlanarTracker&quot; entry and update it
-if transform_menu:
-    planar_tracker = transform_menu.findItem(&quot;PlanarTracker&quot;)
-    if planar_tracker:
-        # Reassign the command with a hotkey
-        planar_tracker.setShortcut(&quot;P&quot;)  # Change &quot;P&quot; to your desired hotkey
-</script><script></script>
+import numpy as np
+print(&quot;NumPy yuklandi:&quot;, np.__version__)
+</script>

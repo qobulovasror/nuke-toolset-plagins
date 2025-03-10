@@ -14,10 +14,16 @@
 ### nuke.pluginAddPath("./", addToSysPath=False);
 import os
 import os.path
+import sys
 global syspath
 
-# cwd = 'C://Users/qobul/.nuke/v_'
-cwd = os.path.join(os.environ['USERPROFILE'], '.nuke', 'v_')
+cwd = ''
+
+if sys.platform == "win32":
+    cwd = os.path.join(os.environ['USERPROFILE'], '.nuke', 'v_')
+else:
+    cwd = os.path.join(os.environ['HOME'], '.nuke', 'v_')
+
 
 files = os.listdir(cwd)
 

@@ -1,11 +1,14 @@
 import os
+import sys
 import os.path
 
 # Initialize syspath to the current working directory or any valid directory path
 syspath = os.getcwd()
 
-# cwd = 'C://Users/qobul/.nuke/secondaryColourTools'
-cwd = os.path.join(os.environ['USERPROFILE'], '.nuke', 'secondaryColourTools')
+if sys.platform == "win32":
+    cwd = os.path.join(os.environ['USERPROFILE'], '.nuke', 'secondaryColourTools')
+else:
+    cwd = os.path.join(os.environ['HOME'], '.nuke', 'secondaryColourTools')
 
 files = os.listdir(cwd)
 

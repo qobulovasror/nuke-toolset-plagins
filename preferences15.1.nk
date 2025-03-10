@@ -1,7 +1,9 @@
 Preferences {
  inputs 0
  name Preferences
+ viewer_texture_vram 2048
  selectedGPUDeviceName "NVIDIA GeForce GTX 1650"
+ BlinkCacheMemoryPercentage 50
  trialOFXPlugins true
  platformPathRemaps ""
  defaultFlipbook "Flipbook Viewer"

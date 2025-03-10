@@ -1,11 +1,15 @@
 ### nuke.pluginAddPath("./", addToSysPath=False);
 import os
+import sys
+import nuke
 import os.path
 global syspath
 
 # Initialize syspath to the desired directory path
-# syspath = 'C://Users/qobul/.nuke/Gizmos'
-syspath = os.path.join(os.environ['USERPROFILE'], '.nuke', 'Gizmos')
+if sys.platform == "win32":
+    syspath = os.path.join(os.environ['USERPROFILE'], '.nuke', 'Gizmos')
+else:
+    syspath = os.path.join(os.environ['HOME'], '.nuke', 'Gizmos')
 
 # Set up the plugin path in Nuke
 nuke.pluginAddPath(syspath, addToSysPath=False)
