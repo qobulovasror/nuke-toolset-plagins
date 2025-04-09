@@ -1,10 +1,12 @@
-import nuke
+import nuke # type: ignore
+import sys
+import os
+import subprocess
 
-nuke.pluginAddPath("./NukeSurvivalToolkit_publicRelease-2.1.1/NukeSurvivalToolkit")
-# nuke.pluginAddPath('./pixelfudger')
-nuke.pluginAddPath('./Gizmos')
-nuke.pluginAddPath('./secondaryColourTools')
-nuke.pluginAddPath('./v_')
-nuke.pluginAddPath('./OtherScript')
-nuke.pluginAddPath('./pixelfudger_3.3v1_dec2024')
-nuke.pluginAddPath('./keentools')
+
+nuke.pluginAddPath("./Run3PartSoftware")
+nuke.pluginAddPath("./AllAddedTools")
+
+
+# nuke.pluginAddPath("./Custom")
+# nuke.pluginAddPath("./nuBridge_win64_v1.3.0")

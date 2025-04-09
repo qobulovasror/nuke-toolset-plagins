@@ -1,8 +1,2 @@
-<?xml version="1.0" encoding="UTF-8"?><script>import sys
-
-# Faqat Nuke Python kutubxonalarini ishlatish uchun boshqa yo‘llarni olib tashlaymiz
-sys.path = [p for p in sys.path if &quot;Python312&quot; not in p]
-
-import numpy as np
-print(&quot;NumPy yuklandi:&quot;, np.__version__)
-</script>
+<?xml version="1.0" encoding="UTF-8"?><script>import nuke
+print(nuke.allNodes())</script><script></script>

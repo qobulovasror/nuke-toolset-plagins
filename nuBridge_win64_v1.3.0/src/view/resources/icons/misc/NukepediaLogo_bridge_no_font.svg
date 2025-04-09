@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg5480"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   width="100"
+   height="100"
+   sodipodi:docname="NukepediaLogo_bridge_no_font.svg">
+  <metadata
+     id="metadata5486">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5484">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3037">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,445 445,445 445,0 0,0 0,445 z"
+         id="path3039" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1219"
+     inkscape:window-height="1314"
+     id="namedview5482"
+     showgrid="false"
+     inkscape:zoom="3.1289475"
+     inkscape:cx="74.866364"
+     inkscape:cy="86.567312"
+     inkscape:window-x="592"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g3011" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="paths"
+     style="display:inline"
+     transform="translate(0,-50)">
+    <g
+       id="layer5"
+       inkscape:label="paths"
+       style="display:inline"
+       transform="matrix(7.8770938,0,0,8.6225061,-79.00405,-78.922421)">
+      <g
+         id="g3011"
+         transform="translate(4.773101e-7,2.2528415)">
+        <g
+           transform="matrix(0.03854889,0,0,-0.03521635,7.8000055,27.721433)"
+           style="display:inline"
+           id="g3100">
+          <g
+             transform="translate(289.4971,312.1621)"
+             id="g3041">
+            <path
+               sodipodi:nodetypes="sssssssssssss"
+               id="path3043"
+               style="fill:#6e6e6e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               d="M 0,0 C 0,59.304 -48.245,107.553 -107.549,107.553 -166.853,107.553 -215.102,59.304 -215.102,0 l 0,-97.566 c 0,-14.598 11.844,-26.446 26.446,-26.446 14.61,0 26.45,11.848 26.45,26.446 l 0,97.566 c 0,30.139 24.518,54.662 54.657,54.662 30.139,0 54.658,-24.523 54.658,-54.662 l 0,-97.566 c 0,-14.598 11.839,-26.446 26.446,-26.446 14.61,0 26.445,11.848 26.445,26.446 z"
+               inkscape:connector-curvature="0" />
+          </g>
+          <g
+             transform="translate(263.0518,104.1123)"
+             id="g3045">
+            <path
+               id="path3047"
+               style="fill:#c75932;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               d="m 0,0 c -59.304,0 -107.549,48.245 -107.549,107.553 l 0,97.553 c 0,14.611 11.84,26.455 26.445,26.455 14.607,0 26.446,-11.844 26.446,-26.455 l 0,-97.553 c 0,-30.135 24.518,-54.657 54.658,-54.657 30.134,0 54.657,24.522 54.657,54.657 l 0,97.553 c 0,14.611 11.844,26.455 26.446,26.455 14.61,0 26.449,-11.844 26.449,-26.455 l 0,-97.553 C 107.552,48.245 59.304,0 0,0"
+               inkscape:connector-curvature="0" />
+          </g>
+        </g>
+      </g>
+      <g
+         transform="matrix(0.0640625,0,0,-0.05852433,8.4563213,27.97352)"
+         id="g3035"
+         clip-path="url(#clipPath3037)" />
+    </g>
+  </g>
+</svg>

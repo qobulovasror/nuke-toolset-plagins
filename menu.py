@@ -93,14 +93,14 @@ def createNodes():
     nuke.autoplace_all()
 
 # Shortcutni o'rnatish
-nuke.menu('Nuke').addCommand('Custom/Create Nodes', 'createNodes()', 'L')
+#nuke.menu('Nuke').addCommand('Custom/Create Nodes', 'createNodes()', 'L')
 
 
 
 
 
 # Tayyor Write nodini o'shish
-custom_menu.addCommand("Taylor Write(ctrl+w)", "createWriteNode()", icon="write.png")
+#custom_menu.addCommand("Taylor Write(ctrl+w)", "createWriteNode()", icon="write.png")
 
 
 
@@ -144,7 +144,7 @@ def createWriteNode():
    
 
 # Shortcutni o'rnatish
-nuke.menu('Nuke').addCommand('Custom/Read to Write', 'createWriteNode()', 'Ctrl+W')
+#nuke.menu('Nuke').addCommand('Custom/Read to Write', 'createWriteNode()', 'Ctrl+W')
 
 
 
@@ -182,7 +182,7 @@ def setFrameRate():
     nuke.message(f"Nuke FPS: {frame_rate} ga o'rnatildi!")
 
 # Y tugmasi bosilganda ishga tushadigan qilib o'rnatamiz
-nuke.menu('Nuke').addCommand('Custom/Set FPS from Read', 'setFrameRate()', 'Y')
+nuke.menu('Nuke').addCommand('Custom/Set FPS from Read', 'setFrameRate()', 'SHIFT+Y')
 
 # qushimcha  tugmalar
 custom_menu.addCommand("Tugmalar", "tugmalar()", icon="menu.png")
@@ -199,3 +199,49 @@ def tugmalar():
     "VectorDistort--> U\n"
     
     )
+    
+    
+
+
+
+
+
+# def create_xmem_launcher_node():
+#     # Maxsus NoOp node yaratamiz
+#     xmem_launcher = nuke.createNode('NoOp')
+#     xmem_launcher.setName("XMem_Launcher")
+
+#     # PyScript tugma yaratiladi
+#     launch_btn = nuke.PyScript_Knob("launch_xmem", "XMem2 ni ishga tushirish")
+
+#     # Tugmaga bajariladigan kod yoziladi
+#     script = '''
+# node = nuke.thisNode()
+# input_node = node.input(0)
+
+# if input_node is None:
+#     nuke.message("Iltimos, bu nodega Read node ulanmagan.")
+# else:
+#     try:
+#         # Read node dan file pathni olamiz
+#         file_path = input_node['file'].value()
+
+#         # XMem node yaratamiz (agar mavjud bo'lsa)
+#         xmem_node = nuke.createNode("XMem")  # Bu sizda o'rnatilgan XMem nodining nomi bo'lishi kerak
+
+#         # Agar XMem node da 'file' knob bo'lsa, path ni uzatamiz
+#         if 'file' in xmem_node.knobs():
+#             xmem_node['file'].setValue(file_path)
+#         else:
+#             nuke.message("XMem node 'file' knob ni topib bo'lmadi.")
+#     except:
+#         nuke.message("File pathni olishda yoki XMem node yaratishda xatolik yuz berdi.")
+# '''
+
+#     # Kodni tugmaga biriktiramiz
+#     launch_btn.setValue(script)
+#     xmem_launcher.addKnob(launch_btn)
+
+# # Nodeni yaratamiz
+# create_xmem_launcher_node()
+

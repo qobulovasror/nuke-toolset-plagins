@@ -1,0 +1,142 @@
+set cut_paste_input [stack 0]
+version 13.2 v5
+push $cut_paste_input
+Group {
+ name Skin_Retouching_Tool
+ selected true
+ xpos -751
+ ypos -51
+ addUserKnob {20 Skin_Retouch_v1}
+ addUserKnob {26 ""}
+ addUserKnob {41 Color_Blur T Blur35.size}
+ addUserKnob {41 AlphaRange l Alpha_Range T Keyer17.range}
+ addUserKnob {41 Alpha_Blur T Blur36.size}
+ addUserKnob {6 Invert +STARTLINE}
+ addUserKnob {41 Roto_EdgeBlur T EdgeBlur18.size}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credit l "" +STARTLINE T "\n\nSkin_Retouch_Tool V1\nBY KUNTAL MUKHERJEE\n\nUse the tool To Remove Facial Wrinkles And Blemishes "}
+}
+ Input {
+  inputs 0
+  name Roto
+  xpos -946
+  ypos -636
+ }
+ EdgeBlur {
+  name EdgeBlur18
+  xpos -1077
+  ypos -642
+ }
+ Input {
+  inputs 0
+  name Scan
+  xpos -1430
+  ypos -1399
+  number 1
+ }
+ Dot {
+  name Dot4
+  xpos -1396
+  ypos -1238
+ }
+set Ndf03b400 [stack 0]
+ Dot {
+  name Dot5
+  xpos -1396
+  ypos -1171
+ }
+ Blur {
+  filter triangle
+  quality 25
+  name Blur35
+  xpos -1430
+  ypos -1105
+ }
+ Dot {
+  name Dot6
+  xpos -1300
+  ypos -1096
+ }
+set Ndf03a800 [stack 0]
+ Dot {
+  name Dot7
+  xpos -1300
+  ypos -1171
+ }
+push $Ndf03b400
+ Dot {
+  name Dot1
+  xpos -1202
+  ypos -1238
+ }
+set N82270400 [stack 0]
+ Dot {
+  name Dot2
+  xpos -877
+  ypos -1238
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge1
+  xpos -911
+  ypos -1174
+ }
+ Dot {
+  name Dot3
+  xpos -877
+  ypos -1034
+ }
+push $N82270400
+push $Ndf03a800
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge19
+  xpos -1236
+  ypos -1099
+ }
+ Switch {
+  inputs 2
+  which {{Skin_Retouching_Tool.Invert}}
+  name Switch1
+  xpos -1236
+  ypos -1037
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 0.9849814399 1 1}
+  name Keyer17
+  xpos -1236
+  ypos -886
+ }
+ Invert {
+  name Invert1
+  xpos -1236
+  ypos -815
+ }
+ Saturation {
+  saturation 0
+  name Saturation17
+  xpos -1236
+  ypos -758
+ }
+ Blur {
+  filter triangle
+  name Blur36
+  xpos -1236
+  ypos -722
+ }
+ Merge2 {
+  inputs 2
+  operation in
+  name In16
+  xpos -1236
+  ypos -636
+ }
+ Output {
+  name Output1
+  xpos -1247
+  ypos -576
+ }
+end_group

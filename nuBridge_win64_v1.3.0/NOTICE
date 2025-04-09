@@ -1,0 +1,9 @@
+Copyright 2015 Frank Rueter
+The rsa, pyasn1 and requests packages are licensed under the Apache 2.0 license.
+   You may obtain a copy of the License at
+	http://www.apache.org/licenses/LICENSE-2.0
+
+The keyring library is licensed under both the MIT license and the PSF license.
+   You may obtain a copy of the Licenses at
+	https://opensource.org/licenses/MIT
+	https://opensource.org/licenses/Python-2.0
