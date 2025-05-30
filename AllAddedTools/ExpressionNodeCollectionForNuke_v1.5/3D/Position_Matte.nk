@@ -1,0 +1,157 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+add_layer {P P.NX P.NY P.NZ}
+Group {
+ name Position_Matte
+ help "make a spherical grad matte from a 2D world position image or 2D cRef image.\nhttp://www.wetafx.co.nz/twiki/Comp/CompTrainingMasksandGrading"
+ tile_color 0xffffff00
+ note_font "Verdana Bold"
+ selected true
+ xpos 1163
+ ypos -253
+ addUserKnob {20 User l pMatte}
+ addUserKnob {41 in l channel T Shuffle1.in}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {18 pos l Position t "Select the colour that corresponds to\nthe position you want."}
+ pos {0 0 0}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {13 rad l Radius}
+ rad {50 50 50}
+ addUserKnob {7 size l Scale R 0 5}
+ size 1
+ addUserKnob {13 rot l Rotate}
+ addUserKnob {26 ""}
+ addUserKnob {41 white l gain T Grade1.white}
+ addUserKnob {41 gamma T Grade1.gamma}
+ addUserKnob {26 ""}
+ addUserKnob {41 output t "select destination channel/layer\nfor depth bubble " T ShuffleCopy1.out2}
+}
+ Input {
+  inputs 0
+  name src
+  xpos 189
+  ypos 731
+ }
+ Shuffle {
+  in P
+  alpha black
+  name Shuffle1
+  label "\[value in]"
+  xpos 189
+  ypos 755
+ }
+ Dot {
+  name Dot1
+  xpos 223
+  ypos 825
+ }
+set Ne0f6d800 [stack 0]
+ Expression {
+  expr0 r-parent.pos.r
+  expr1 g-parent.pos.g
+  expr2 b-parent.pos.b
+  name Expression1
+  selected true
+  xpos 23
+  ypos 891
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(yrot))} 0 {-sin(radians(yrot))}}
+      {0 1 0}
+      {{sin(radians(yrot))} 0 {cos(radians(yrot))}}
+    }
+  name ColorMatrix14
+  label yrot
+  xpos 23
+  ypos 917
+  addUserKnob {20 "" l User}
+  addUserKnob {7 yrot l "y rotation" R -90 90}
+  yrot {{parent.rot.y}}
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(xrot))} {sin(radians(xrot))}}
+      {0 {-sin(radians(xrot))} {cos(radians(xrot))}}
+    }
+  name ColorMatrix15
+  label "xrot\n"
+  xpos 23
+  ypos 955
+  addUserKnob {20 "" l User}
+  addUserKnob {7 xrot l "x rotation" R -90 90}
+  xrot {{parent.rot.x}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(zrot))} {sin(radians(zrot))} 0}
+      {{-sin(radians(zrot))} {cos(radians(zrot))} 0}
+      {0 0 1}
+    }
+  name ColorMatrix13
+  label "zrot\n"
+  xpos 23
+  ypos 993
+  addUserKnob {20 "" l User}
+  addUserKnob {7 zrot l "z rotation" R -90 90}
+  zrot {{parent.rot.z}}
+ }
+ Expression {
+  expr0 r+parent.pos.r
+  expr1 g+parent.pos.g
+  expr2 b+parent.pos.b
+  name Expression2
+  xpos 23
+  ypos 1031
+ }
+ Expression {
+  temp_name0 distR
+  temp_expr0 ((Br-parent.pos.r)/rad.x)/parent.size
+  temp_name1 distG
+  temp_expr1 ((Bg-parent.pos.g)/rad.y)/parent.size
+  temp_name2 distB
+  temp_expr2 ((Bb-parent.pos.b)/rad.z)/parent.size
+  temp_name3 len
+  temp_expr3 "sqrt((distR*distR)+(distG*distG)+(distB*distB)) "
+  channel0 {-rgba.red -rgba.green -rgba.blue none}
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  expr3 1-len
+  name __POSITION_KEY__
+  xpos 23
+  ypos 1103
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  xpos 23
+  ypos 1156
+ }
+ Grade {
+  channels rgba
+  white_clamp true
+  name Grade1
+  xpos 23
+  ypos 1182
+ }
+push $Ne0f6d800
+ ShuffleCopy {
+  inputs 2
+  alpha alpha2
+  black alpha
+  white alpha
+  red2 alpha
+  green2 alpha
+  out2 alpha
+  name ShuffleCopy1
+  xpos 195
+  ypos 1283
+ }
+ Output {
+  name Output1
+  xpos 195
+  ypos 1369
+ }
+end_group

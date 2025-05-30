@@ -1,0 +1,546 @@
+set cut_paste_input [stack 0]
+version 11.0 v1
+push $cut_paste_input
+Group {
+ name PSD_Merge
+ help "Does a pixel-by-pixel merge operation on the two input images with similar blending modes to Adobe Photoshop. "
+ tile_color 0x4b5ec600
+ note_font "Bitstream Vera Sans"
+ selected true
+ xpos 293
+ ypos 171
+ mapsize {0.15 0.15}
+ addUserKnob {20 User}
+ addUserKnob {4 operation t "Blending mode." M {normal screen "color dodge" overlay multiply darken "color burn" "linear burn" lighten "linear dodge" "lighter color" "soft light" "hard light" "vivid light" "linear light" "pin light" "hard mix" difference exclusion subtract divide hue saturation color luminosity "" "" "" "" ""}}
+ addUserKnob {6 sRGB l "sRGB colorspace" t "Photoshop merge operations are done in sRGB colorspace. If this option is checked ( the default ) the input is converted to sRGB from linear, the merge performed and the result converted back to linear." -STARTLINE}
+ sRGB true
+ addUserKnob {26 ""}
+ addUserKnob {26 mask -STARTLINE T ""}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T Merge5.maskChannelInput}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Merge5.invert_mask}
+ addUserKnob {41 mix T Merge5.mix}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label HUE
+  note_font_size 42
+  xpos 3568
+  ypos 580
+  bdwidth 255
+  bdheight 319
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x7171c600
+  label Saturation
+  note_font_size 42
+  xpos 3870
+  ypos 582
+  bdwidth 255
+  bdheight 319
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x7171c600
+  label Color
+  note_font_size 42
+  xpos 4165
+  ypos 584
+  bdwidth 255
+  bdheight 319
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x7171c600
+  label Luminosity
+  note_font_size 42
+  xpos 4471
+  ypos 585
+  bdwidth 255
+  bdheight 319
+ }
+ Input {
+  inputs 0
+  name A
+  xpos 3181
+  ypos -1077
+  number 1
+ }
+ Colorspace {
+  colorspace_out sRGB
+  name Colorspace15
+  xpos 3181
+  ypos -1039
+  disable {{"! sRGB"}}
+ }
+set N894da300 [stack 0]
+ Dot {
+  name Dot2
+  xpos 5192
+  ypos 782
+ }
+ Dot {
+  name Dot43
+  xpos 2476
+  ypos 1946
+ }
+set N894e4340 [stack 0]
+ Multiply {
+  value 0
+  maskChannelInput {{{parent.Merge5.maskChannelInput}}}
+  invert_mask {{"! parent.Merge5.invert_mask"}}
+  name Multiply1
+  xpos 2442
+  ypos 1986
+  disable {{mask==0 x1 1}}
+ }
+ Input {
+  inputs 0
+  name B
+  xpos 1655
+  ypos -1082
+ }
+ Colorspace {
+  colorspace_out sRGB
+  name Colorspace14
+  xpos 1655
+  ypos -1011
+  disable {{"! sRGB"}}
+ }
+set N894ee9d0 [stack 0]
+ Dot {
+  name Dot60
+  xpos -384
+  ypos -376
+ }
+ Dot {
+  name Dot61
+  xpos -384
+  ypos 1688
+ }
+ Dot {
+  name Dot46
+  xpos 2158
+  ypos 1996
+ }
+set N8bd00600 [stack 0]
+ Dot {
+  name Dot1
+  xpos 2158
+  ypos 2102
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge1
+  xpos 2442
+  ypos 2092
+ }
+push $N894e4340
+push $N894ee9d0
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace11
+  xpos 4483
+  ypos 723
+ }
+push $N894da300
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace12
+  xpos 4577
+  ypos 724
+ }
+ ShuffleCopy {
+  inputs 2
+  green green
+  blue blue
+  name ShuffleCopy4
+  xpos 4483
+  ypos 783
+ }
+ Colorspace {
+  colorspace_in CIE-LCH
+  colorspace_out sRGB
+  name Colorspace13
+  xpos 4483
+  ypos 822
+ }
+push $N894ee9d0
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace8
+  xpos 4177
+  ypos 722
+ }
+push $N894da300
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace9
+  xpos 4271
+  ypos 723
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  name ShuffleCopy3
+  xpos 4177
+  ypos 782
+ }
+ Colorspace {
+  colorspace_in CIE-LCH
+  colorspace_out sRGB
+  name Colorspace10
+  xpos 4177
+  ypos 821
+ }
+push $N894ee9d0
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace4
+  xpos 3882
+  ypos 720
+ }
+push $N894da300
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace5
+  xpos 3976
+  ypos 719
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue blue
+  name ShuffleCopy2
+  selected true
+  xpos 3882
+  ypos 780
+ }
+ Colorspace {
+  colorspace_in CIE-LCH
+  colorspace_out sRGB
+  name Colorspace7
+  xpos 3882
+  ypos 819
+ }
+push $N894ee9d0
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace1
+  xpos 3580
+  ypos 718
+ }
+push $N894da300
+ Colorspace {
+  colorspace_in sRGB
+  colorspace_out CIE-LCH
+  name Colorspace2
+  xpos 3674
+  ypos 719
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  alpha black
+  name ShuffleCopy1
+  xpos 3580
+  ypos 778
+ }
+ Colorspace {
+  colorspace_in CIE-LCH
+  colorspace_out sRGB
+  name Colorspace3
+  xpos 3580
+  ypos 817
+ }
+push $N894da300
+ Expression {
+  expr0 1/r
+  expr1 1/g
+  expr2 1/b
+  name Divide
+  xpos 3446
+  ypos 708
+ }
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge35
+  xpos 3351
+  ypos 735
+ }
+ Clamp {
+  name Clamp1
+  xpos 3351
+  ypos 770
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation from
+  bbox A
+  name subtract
+  xpos 3166
+  ypos 727
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation exclusion
+  bbox A
+  name exclusion
+  xpos 2949
+  ypos 719
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation difference
+  bbox A
+  name Difference
+  xpos 2750
+  ypos 729
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "((Ar < 0.5) ? (((2.0 * Ar) == 0.0) ? (2.0 * Ar) : max((1.0 - ((1.0 - Br) / (2.0 * Ar))), 0.0)) : (((2.0 * (Ar - 0.5)) == 1.0) ? (2.0 * (Ar - 0.5)) : min(Br / (1.0 - (2.0 * (Ar - 0.5))), 1.0)) ) < 0.5 ? 0.0 : 1.0"
+  expr1 "((Ag < 0.5) ? (((2.0 * Ag) == 0.0) ? (2.0 * Ag) : max((1.0 - ((1.0 - Bg) / (2.0 * Ag))), 0.0)) : (((2.0 * (Ag - 0.5)) == 1.0) ? (2.0 * (Ag - 0.5)) : min(Bg / (1.0 - (2.0 * (Ag - 0.5))), 1.0)) ) < 0.5 ? 0.0 : 1.0"
+  expr2 "((Ab < 0.5) ? (((2.0 * Ab) == 0.0) ? (2.0 * Ab) : max((1.0 - ((1.0 - Bb) / (2.0 * Ab))), 0.0)) : (((2.0 * (Ab - 0.5)) == 1.0) ? (2.0 * (Ab - 0.5)) : min(Bb / (1.0 - (2.0 * (Ab - 0.5))), 1.0)) ) < 0.5 ? 0.0 : 1.0"
+  name Hardmix
+  xpos 2570
+  ypos 717
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "((Ar < 0.5) ? min(Br, (2.0 * Ar)) : max(Br, (2.0 *(Ar - 0.5))))"
+  expr1 "((Ag < 0.5) ? min(Bg, (2.0 * Ag)) : max(Bg, (2.0 *(Ag - 0.5))))"
+  expr2 "((Ab < 0.5) ? min(Bb, (2.0 * Ab)) : max(Bb, (2.0 *(Ab - 0.5))))"
+  name pinlight
+  xpos 2408
+  ypos 712
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "(Ar < 0.5 ? max(Br + (2.0 * Ar) - 1.0, 0)  :  min(Br + (2.0 * (Ar - 0.5)), 1.0))"
+  expr1 "(Ag < 0.5 ? max(Bg + (2.0 * Ag) - 1.0, 0)  :  min(Bg + (2.0 * (Ag - 0.5)), 1.0))"
+  expr2 "(Ab < 0.5 ? max(Bb + (2.0 * Ab) - 1.0, 0)  :  min(Bb + (2.0 * (Ab - 0.5)), 1.0))"
+  name Linearlight
+  xpos 2245
+  ypos 707
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "((Ar < 0.5) ? (((2.0 * Ar) == 0.0) ? (2.0 * Ar) : max((1.0 - ((1.0 - Br) / (2.0 * Ar))), 0.0)) : (((2.0 * (Ar - 0.5)) == 1.0) ? (2.0 * (Ar - 0.5)) : min(Br / (1.0 - (2.0 * (Ar - 0.5))), 1.0)) )"
+  expr1 "((Ag < 0.5) ? (((2.0 * Ag) == 0.0) ? (2.0 * Ag) : max((1.0 - ((1.0 - Bg) / (2.0 * Ag))), 0.0)) : (((2.0 * (Ag - 0.5)) == 1.0) ? (2.0 * (Ag - 0.5)) : min(Bg / (1.0 - (2.0 * (Ag - 0.5))), 1.0)) )"
+  expr2 "((Ab < 0.5) ? (((2.0 * Ab) == 0.0) ? (2.0 * Ab) : max((1.0 - ((1.0 - Bb) / (2.0 * Ab))), 0.0)) : (((2.0 * (Ab - 0.5)) == 1.0) ? (2.0 * (Ab - 0.5)) : min(Bb / (1.0 - (2.0 * (Ab - 0.5))), 1.0)) )"
+  name vividlight
+  xpos 2093
+  ypos 701
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation hard-light
+  bbox A
+  name Merge23
+  xpos 1940
+  ypos 691
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "((Ar < 0.5) ? (2.0 * Br * Ar + Br * Br * (1.0 - 2.0 * Ar)) : (sqrt(Br) * (2.0 * Ar - 1.0) + 2.0 * Br * (1.0 - Ar)))"
+  expr1 "((Ag < 0.5) ? (2.0 * Bg * Ag + Bg * Bg * (1.0 - 2.0 * Ag)) : (sqrt(Bg) * (2.0 * Ag - 1.0) + 2.0 * Bg * (1.0 - Ag)))"
+  expr2 "((Ab < 0.5) ? (2.0 * Bb * Ab + Bb * Bb * (1.0 - 2.0 * Ab)) : (sqrt(Bb) * (2.0 * Ab - 1.0) + 2.0 * Bb * (1.0 - Ab)))"
+  name softlight
+  xpos 1757
+  ypos 694
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation max
+  name lightcolor
+  xpos 1603
+  ypos 684
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "min(Br + Ar, 1.0)"
+  expr1 "min(Bg + Ag, 1.0)"
+  expr2 "min(Bb + Ab, 1.0)"
+  name lindodge
+  xpos 1464
+  ypos 679
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation max
+  bbox A
+  name lighten
+  xpos 1311
+  ypos 683
+ }
+push $N894da300
+push $N894ee9d0
+ MergeExpression {
+  inputs 2
+  expr0 "max(Br + Ar - 1.0, 0.0)"
+  expr1 "max(Bg + Ag - 1.0, 0.0)"
+  expr2 "max(Bb + Ab - 1.0, 0.0)"
+  name linburn
+  xpos 1156
+  ypos 680
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation color-burn
+  bbox A
+  name Merge15
+  xpos 962
+  ypos 677
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation min
+  name Darken
+  xpos 764
+  ypos 667
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge12
+  xpos 527
+  ypos 660
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation overlay
+  bbox A
+  name Merge10
+  xpos 377
+  ypos 660
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation color-dodge
+  bbox A
+  name Merge8
+  xpos 216
+  ypos 656
+ }
+push $N894da300
+push $N894ee9d0
+ Merge2 {
+  inputs 2
+  operation screen
+  bbox A
+  name Merge6
+  xpos 7
+  ypos 647
+ }
+push $N894da300
+ Dot {
+  name Dot62
+  xpos -204
+  ypos 650
+ }
+ Switch {
+  inputs 25
+  which {{operation}}
+  name Switch1
+  xpos 2310
+  ypos 1892
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 2310
+  ypos 1936
+ }
+push $N8bd00600
+ Merge2 {
+  inputs 2
+  operation matte
+  name Merge5
+  xpos 2310
+  ypos 1992
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy5
+  xpos 2310
+  ypos 2134
+ }
+set N8be527f0 [stack 0]
+ Colorspace {
+  colorspace_in sRGB
+  name Colorspace6
+  xpos 2310
+  ypos 2177
+  disable {{"! sRGB"}}
+ }
+ Output {
+  name Output1
+  xpos 2310
+  ypos 2220
+ }
+push $N8be527f0
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 2572
+  ypos 2172
+ }
+end_group

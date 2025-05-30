@@ -1,0 +1,20 @@
+LICENSE
+___________________________________________________________________________
+
+Dear user, thank you so much for giving my tool suite a chance!
+I hope you have a great time using it and it improves your workflow.
+
+This suite is my heart project so I would be very happy if you don't
+republish my tools under your name. If you wanna build something on your own
+that is based on one of my tools I am fine with that as long as you credit 
+me in your own creation. Some note like "this node is based on Mango Suites
+node x, y by Johannes Kretschmer" would be very nice!
+
+Please give me feedback on bugs and things that could be improved. It is ok
+when you do changes to the nodes yourself but please tell me about it so that 
+I can also implement the changes and fixes to improve the suite and work on 
+necessary updates. 
+
+You can reach me on my LinkedIn page "Joannes Kretschmer" or via email: Jolegodrum@t-online.de
+
+:)

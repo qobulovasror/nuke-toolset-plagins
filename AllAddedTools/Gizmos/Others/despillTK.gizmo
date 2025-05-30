@@ -1,0 +1,1734 @@
+set cut_paste_input [stack 0]
+version 15.1 v3
+push $cut_paste_input
+Group {
+name despillTK
+help "DespillTK is despill node based on weighted average algorithm.\nSee tooltips for additional information on how to use it."
+tile_color 0xb81ffff
+selected true
+xpos -1284
+ypos 457
+addUserKnob {20 despillTK}
+addUserKnob {26 toolName l "" +STARTLINE T "<font color=\"lightgreen\" size=\"6\">despill</font><font color=\"#FFCC66\" size=\"6\">TK</font>"}
+addUserKnob {26 toolAuthor l "" +STARTLINE T "<font color=\"lightgreen\" size=\"2\">by Timur Khodzhaev</font>"}
+addUserKnob {26 ""}
+addUserKnob {4 spillColour l "Spill Colour" t "Select between green or blue screen colour" M {Green Blue "" "" "" "" "" "" "" ""}}
+addUserKnob {22 btnSample l Sample t " this button samples color in selected position and neutralizes it. Read about it in Neutralize slider description" -STARTLINE T "def Evaluate():\n    #\n    # sample colors from source and despilled plate to get RGB values at picker positions\n    #\n    # Sample despilled  Multiplier = 1 1 1\n    # reset multiplyer before testing\n    groupNode = nuke.thisNode()\n    defaultDespillNode = groupNode.node('DefaultDespilExpr')\n    sourceColorNode = groupNode.node('SourceColor')\n\n    smp=(1,1,1)\n    smp1=(1,1,1)\n\n    # Reset multiplier before readjustment\n    groupNode\['spillAdjustment'].setValue((1,1,1))\n\n    # Sample despilled\n    smp=(defaultDespillNode.sample('red', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]),\n                                defaultDespillNode.sample('green', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]),\n                                defaultDespillNode.sample('blue', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]))\n    # Sample source\n    smp1=(sourceColorNode.sample('red', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]),\n                                 sourceColorNode.sample('green', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]),\n                                 sourceColorNode.sample('blue', groupNode\['Sample'].value()\[0], groupNode\['Sample'].value()\[1]))\n    #smp=samplerNode\['cp'].value()\n    #smp1=samplerNode\['cp1'].value()\n\n    # set min and max knobs values. helpful for debug\n    # RGB values at smp\[0] smp\[1] smp\[2]\n\n    #samplerNode\['minCol'].setValue((smp\[0]<min(smp\[1],smp\[2]),smp\[1]<min(smp\[0],smp\[2]),smp\[2]<min(smp\[1],smp\[0])))\n    #samplerNode\['minColA'].setValue((smp\[0]==min(smp\[0],smp\[2]),0,smp\[2]==min(smp\[0],smp\[2])))\n\n# weight it picked up from another node (spillBias)\n\n    wt = groupNode\['spillBias'].value()\n\n    if groupNode\['spillColour'].value()=='Green':\n        maxVal=max(smp1\[0],smp1\[2])\n        avg =smp1\[0]*(1-wt)+smp1\[2]*(wt)\n\n    else:\n        maxVal=max(smp1\[0],smp1\[1])\n        avg =smp1\[0]*(1-wt)+smp1\[1]*(wt)\n\n    #maxVal=samplerNode\['minColA'].value()\n    # set min and max knobs values. helpful for debug\n\n    # Checking which one is smaller R or B and setting max value Multiplier to 0. So for ex. if R >B then Xr =0 if B > R then Xb=0\n    # examples for green spill colour\n    # for B =>  R>B?(R-B)/(G - avg)\n    # for G => (G-B)/(G - avg)\n\n    if groupNode\['spillColour'].value()=='Green':\n        # RED\n        if (smp\[0]>smp\[2]):\n            Xr=0\n        else:\n            if ((smp1\[1] - avg)>0):\n                Xr=(maxVal-smp1\[0])/(smp1\[1] - avg)\n            else:\n                Xr=1\n\n        # BLUE\n        if (smp\[0]<smp\[2]):\n            Xb=0\n        else:\n            if ((smp1\[1] - avg)>0):\n                Xb=(maxVal-smp1\[2])/(smp1\[1] - avg)\n            else:\n                Xb=1\n\n        # GREEN\n        if ((smp1\[1] - avg)>0):\n            Xg = (smp1\[1]-maxVal)/(smp1\[1] - avg)\n        else:\n            Xg=1\n\n    else:\n        # RED\n        if (smp\[0]>smp\[1]):\n            Xr=0\n        else:\n            if ((smp1\[2] - avg)>0):\n                Xr=(maxVal-smp1\[0])/(smp1\[2] - avg)\n            else:\n                Xr=1\n\n        # Green\n        if (smp\[0]<smp\[1]):\n            Xg=0\n        else:\n            if ((smp1\[2] - avg)>0):\n                Xg=(maxVal-smp1\[1])/(smp1\[2] - avg)\n            else:\n                Xg=1\n\n        # Blue\n        if ((smp1\[2] - avg)>0):\n            Xb = (smp1\[2]-maxVal)/(smp1\[2] - avg)\n        else:\n            Xb=1\n    # Set Grade to neutral colors\n\n    groupNode\['spillAdjustment'].setValue((Xr,Xg,Xb))\n\n\ndef Reset():\n    # Reset grade to defaults same default color at the moment. Might be changed later.\n    #\n    groupNode = nuke.thisNode()\n    if groupNode\['spillColour'].value()==0:\n        groupNode\['spillAdjustment'].setValue((0,1,0))\n    else:\n        groupNode\['spillAdjustment'].setValue((0,0,1))\ntry:\n    Reset()\n    Evaluate()\nexcept Exception, e:\n    print('toolsTK: DespillTK: %s' % e)\n"}
+addUserKnob {22 Reset l "Reset To Defaults" t "Restores node to factory default settings" -STARTLINE T "n=nuke.thisNode()\nn\['showBG'].setValue(True)\nn\['spillBias'].setValue(0.5)\nn\['spillThreshold'].setValue(1)\nn\['spillAdjustment'].setValue(\[0, 1, 0])\nn\['spillFineTune'].setValue(\[0, 0, 0])\nn\['spillSaturation'].setValue(1)\nn\['subtractSpill'].setValue(0.5)\nn\['subtractTreshold'].setValue(1)\nn\['restoreLuma'].setValue(1)\nn\['bgMix'].setValue(0.3)\nn\['bgMixThreshold'].setValue(1)\nn\['bgBlurCore'].setValue(10)\nn\['coreWeight'].setValue(1)\nn\['bgHighlights'].setValue(1.1)\nn\['solarize'].setValue(False)\nn\['restorehighlights'].setValue(False)\nn\['gradeHighlights'].setValue(\[1, 1, 1])\nn\['outputChannels'].setValue(False)\nn\['showHelper'].setValue(False)\nn\['stripes'].setValue(True)\nn\['subtractSpill_enable'].setValue(True)\nn\['restoreLuma_enable'].setValue(True)\nn\['tintSpill'].setValue(False)\nn\['spillSaturation_enable'].setValue(False)\nn\['debugOutEnable'].setValue(False)\nn\['overall_mix'].setValue(1)\nn\['neutralize'].setValue(False)\n\n\n"}
+addUserKnob {6 debugOutEnable l Display t "Display checkbox. Enables additional debuging displays.\nSpill - displays spill separately\nSpillMatte - displays b/w spill mask\nBG Highlights Overlay - displays overlay mask over plate and BG allowing you to see what would be affected by BG Highlights gain. read about it later in BG Influence tab section\nBG Highlights Matte - displays mask of BG highlights gain areas as b/w image.\nHighlights recovery Overlay - displays overlay of the areas that would be affected by Highlights recovery feature in Advanced tab.\nImportant to know ths is not tempporary display and if you forget to uncheck it will render it as an output image." +STARTLINE}
+addUserKnob {4 debugOut l "" t "Display checkbox. Enables additional debuging displays.\nSpill - displays spill separately\nSpillMatte - displays b/w spill mask\nBG Highlights Overlay - displays overlay mask over plate and BG allowing you to see what would be affected by BG Highlights gain. read about it later in BG Influence tab section\nBG Highlights Matte - displays mask of BG highlights gain areas as b/w image.\nHighlights recovery Overlay - displays overlay of the areas that would be affected by Highlights recovery feature in Advanced tab.\nImportant to know ths is not tempporary display and if you forget to uncheck it will render it as an output image." -STARTLINE M {Spill SpillMatte "BG Highlights Overlay" "BG Highlights Matte" "Highlights Recovery Overlay" "" "" ""}}
+addUserKnob {6 showBG l "Disable BG" t "This checkbox is on by defaults and it’s disabling BG color mixing. If you uncheck it will enable BG mixing and will allow you to tweak it in BG Influence tab" +STARTLINE}
+showBG true
+addUserKnob {26 ""}
+addUserKnob {20 SpillGroupBegin l "" +STARTLINE n -2}
+addUserKnob {20 spilltab l "Spill Color"}
+addUserKnob {7 spillBias l "Spill Bias" t "Spill Bias allows us to change weight in average formula. Changing weight shifts treated area towards reds or blues. It also becomes a more aggressive and kills yellows or cyans so we have to be careful and balance it in a way that kills spill but doesn’t kill color in our plate."}
+spillBias 0.5
+addUserKnob {7 spillThreshold l "Spill Threshold" t "Spill Threshold controls how aggressive treatment is. It’s pretty sensitive and I limited the slider to a small values range but if for some reason you feel like it’s not enough feel free to crank up values. Just be careful not to over despill your plate." R 0.8 1.2}
+spillThreshold 1
+addUserKnob {6 neutralize l Neutralize t "Neutralize tries to make sampling point as close to gray as possible. \n\nSelect color in your image with sample point in the viewer and press Sample button to neutralize it. Ideally you don’t want your shot to be supression to be gray but for some people it’s easier to start with gray before they will tint it." +STARTLINE}
+addUserKnob {18 spillAdjustment l "" t "This parameter calculated by a Sample button to achieve closes to perfect gray color. But it could be tweaked by a user for a greater control over spill color." -STARTLINE}
+spillAdjustment {0 1 0}
+addUserKnob {6 spillAdjustment_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 spillAdjustment_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 spillAdjustment_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 tintSpill l "Tint Spill" t "Enables spill colour tinting feature.\n" +STARTLINE}
+addUserKnob {18 spillFineTune l "" t "Tint is very helpful for hiding edges of extraction. It allows us to shift color of the screen into any other color of our likings.\n\nThis is additive contribution. Please be aware that you could produce negative colour values using this feature" -STARTLINE R -1 1}
+spillFineTune {0 0 0}
+addUserKnob {6 spillFineTune_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 spillFineTune_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 spillFineTune_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 spillSaturation_enable l Saturation t "Enables saturation slider" +STARTLINE}
+addUserKnob {7 spillSaturation l "" t "Saturation is our last resort. If for some reason we don’t like what we are getting we can desaturate it but it is rather harsh treatment so I would recommend not to touch it unless nothing else works. Mask used internally for desaturation is very harsh and doesn’t have gentle falloff so you might lose a lot of original plate color that way." -STARTLINE}
+spillSaturation 1
+addUserKnob {26 ""}
+addUserKnob {6 subtractSpill_enable l "Subtract Spill" t "Enables option to subtracts brightness from greenscreen. Helps to suppress glowing edges." +STARTLINE}
+subtractSpill_enable true
+addUserKnob {7 subtractSpill l "" t "Quite often you can see people leaving glowing edges when they do extraction. \n\nSubtract spill parameter will help us kill glowing edge on our key. It is pretty destructive option colorwise but sometimes we don’t have other options and it is better than edge extend. As we increase value of subtraction slider it darkens screen, and kills a lot of edge fine details as well. But I wouldn’t worry about it as this could be easily restored using additive key. The goal here is to balance this setting with additive key to get to the point where our edge is not glowing any more but we still have all nice softedge details from original plate. Ideally if your spill detected well with slider pulled all the way to the value of 1 you should get black color in greenscreen areas." -STARTLINE}
+subtractSpill 0.5
+addUserKnob {7 subtractTreshold l "Subtract treshold" t "Subtract threshold controlling how aggressive spill subtraction is." R 0.0001 1.1}
+subtractTreshold 1
+addUserKnob {6 restoreLuma_enable l "Restore Luma" t "Enables luminance restoration" +STARTLINE}
+restoreLuma_enable true
+addUserKnob {7 restoreLuma l "" t "Restore Luma parameter helps us maintain exactly same luminance as original plate. So it is opposite to Subtract Spill. They could be used at the same time but I would be careful using them both at extreme settings as this could produce artifacts since they are naturally fighting each other." -STARTLINE}
+restoreLuma 1
+addUserKnob {6 denoiseLuma l "Supress noise" t "Enables noise supression for luma restoration" +STARTLINE}
+denoiseLuma true
+addUserKnob {7 denoiseAmount l "" t "Amount of noise supression in Luminance restoration treatment\nHigher values tend to desaturate spilled areas. Try to keep it as low as possible and stop increasind as soon as noise disappears.\n\n! Don't tweak this slider below 0 or above 0.99" -STARTLINE R 0 0.99}
+denoiseAmount 0.002
+addUserKnob {7 overall_mix l Mix t "Mix is mixing between despill and original plate."}
+overall_mix 1
+addUserKnob {20 bgtab l "BG Influence" t "If we connect BG input to the image and uncheck Disable BG now we have background image contributing to colors of despilled areas and can control how much BG is contributing in this tab"}
+addUserKnob {7 bgBlurCore l "BG Blur" t "BG Blur blurs background" R 0 100}
+bgBlurCore 10
+addUserKnob {7 bgMix l "BG Contribution" t "BG Contribution controls how much BG contributes to the color. It works almost like mix but you can dial it higher than 1 and it will be still increasing contribution." R 1e-05 3}
+bgMix 0.3
+addUserKnob {7 bgMixThreshold l "BG Threshhold" t "BG Threshold is defining how agressive BG mix is." R 0.01 2}
+bgMixThreshold 1
+addUserKnob {7 bgHighlights l "BG Gain Highlights" t "BG Gain Highlights slider controls how much selected areas in BG image will be gained before mixing. It helps to remove dark edges infront of bright areas in the background.\nIf we enable Display checkbox(at the top of the node) and set it to BG Highlights Overlay we would be able to see what areas of our plate is being affected. We can change that by changing luma key range below slider.\nNow if we uncheck Display checkbox and tweak BG Gain Highlights slider we would be able to change how bright image in these areas is.\n" R 0 4}
+bgHighlights 1.1
+addUserKnob {41 range t "Luminance key for BG Gain Highlights slider" T BGLumaKeyer.range}
+addUserKnob {7 coreWeight l mix t "Mix amount of BG influece alltogether"}
+coreWeight 1
+addUserKnob {20 Advanced t "Advanced features "}
+addUserKnob {6 solarize l Solarize t "This option is for cases when you have a feeling when there is still a little bit of green left. So what it does it makes colors very bright and saturated. And it is completely reversible non destructive treatment that we apply before despill and reverse back after.That way even darkest and slightly green areas pop and it’s easier for algorithm to catch it." +STARTLINE}
+addUserKnob {4 solarizationMethod l "" t "Different solarize options" -STARTLINE M {Max HSL LAB HSV "" "" ""}}
+addUserKnob {6 restorehighlights l "Highlights Recovery" t "Enables Highlights Recovery parameter" +STARTLINE}
+addUserKnob {18 gradeHighlights l "" t "Highlights recovery option helps with treatment of highlights on clipped plates. There is additional luma key range parameter exposed right below slider that allows you to define areas that would be affected by this custom grade. Sometimes despilling clipped bright colors produce very artificial acid looking colors. In order to counter that I made this option that allows you to lumakey specific area and have separate custom treatment on it." -STARTLINE}
+gradeHighlights {1 1 1}
+addUserKnob {6 gradeHighlights_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 gradeHighlights_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {6 gradeHighlights_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {41 range_1 l range t "Luminance key range for Highlights recovery feature" T HighlightsKeyer.range}
+addUserKnob {26 ""}
+addUserKnob {6 keylightLumahelper t "Show helper is deprecated feature but I decided to keep it in advanced tab. It shows you absolutely desaturated sample next to the blured sample next to the sampling point. It allows you to judge how close you are to absolute gray." +HIDDEN +STARTLINE}
+addUserKnob {6 outputChannels l "Output Channels" t "Output Channels exports few more channels for us to us in comp later.\n\n* despillColor - contains spill with BG color mixed in\n\n* despillMatte - contains two separate masks. Red channel holds spill mask with just basic spill bias adjustments and Green channel holds mask with parameters from BG Influence tab affecting mask as well" -STARTLINE}
+addUserKnob {6 showHelper l "Show Helper" t "provides a visual representation to match spill area color to a neutral gray as a starting point for despill. Averaged screen colour on the left. Desaturated gray color on the right." -STARTLINE}
+addUserKnob {6 stripes t "lets you choose between stripes or solid color to represent your mattes \n" -STARTLINE}
+stripes true
+addUserKnob {20 SpillGroupEnd l "" +STARTLINE n -3}
+addUserKnob {26 ""}
+addUserKnob {12 Sample l "Sampler position" t "this should be positioned over your greenscreen"}
+Sample {1257.5 1113.5}
+addUserKnob {20 version t "version info"}
+addUserKnob {26 nodeClass l Class: T despillTK}
+addUserKnob {26 nodeVersion l Version: T 3.2}
+addUserKnob {22 chHelp l "<img src=\":qrc/images/Help.png\"> HELP" t "Opens web page with tool's manual" T "nukescripts.openurl.start (tk.getHelpUrl(nuke.thisNode()))" +STARTLINE}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x3c4148ff
+label Overlays
+note_font_size 42
+xpos -966
+ypos 4212
+bdwidth 1663
+bdheight 879
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x393429ff
+label "Overlay Mask"
+note_font_size 42
+xpos -508
+ypos 3863
+bdwidth 459
+bdheight 302
+}
+BackdropNode {
+inputs 0
+name BackdropNode3
+tile_color 0x393429ff
+label Helper
+note_font_size 42
+xpos -1219
+ypos 1578
+bdwidth 328
+bdheight 295
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0x273327ff
+label "Standard Despill"
+note_font_size 42
+xpos -2289
+ypos -718
+bdwidth 2148
+bdheight 1764
+}
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x1d2327ff
+label "Highlights restoration"
+note_font_size 42
+xpos -1065
+ypos 2471
+bdwidth 512
+bdheight 396
+}
+BackdropNode {
+inputs 0
+name BackdropNode6
+tile_color 0x253437ff
+label "Fine tune section"
+note_font_size 42
+xpos -807
+ypos 1242
+bdwidth 675
+bdheight 698
+}
+BackdropNode {
+inputs 0
+name BackdropNode7
+tile_color 0x1d2327ff
+label "Luma restoration"
+note_font_size 42
+xpos -1068
+ypos 2929
+bdwidth 525
+bdheight 418
+}
+Input {
+inputs 0
+name Input
+xpos -1224
+ypos -1744
+}
+Dot {
+name Dot63
+xpos -1190
+ypos -1607
+}
+set N7074d400 [stack 0]
+Remove {
+operation keep
+channels rgb
+name Remove3
+xpos -1224
+ypos -1562
+}
+Dot {
+name Dot77
+xpos -1190
+ypos -1501
+}
+set N5080ac00 [stack 0]
+Dot {
+name SourceColor
+label SourceColor
+note_font_size 64
+xpos -1673
+ypos -1501
+}
+Expression {
+temp_name0 avg
+temp_expr0 r*(1-wt)+b*(wt)
+temp_name1 rr
+temp_expr1 r+(g-avg)
+temp_name2 bb
+temp_expr2 b+(g-avg)
+temp_name3 gg
+temp_expr3 g-(g-avg)
+expr0 r
+expr1 g>avg>g?gg:g
+expr2 b
+name DefaultDespilExpr
+xpos -1707
+ypos -1432
+addUserKnob {20 User}
+addUserKnob {7 wt l weight}
+wt {{parent.WeightedAverage.which}}
+}
+push $N5080ac00
+Dot {
+name Dot5
+xpos -243
+ypos -1501
+}
+Dot {
+name Dot47
+note_font_size 32
+note_font_color 0x808080ff
+xpos -243
+ypos -860
+}
+push $N5080ac00
+Dot {
+name Dot66
+xpos -1190
+ypos -1205
+}
+set N4fcdf400 [stack 0]
+Dot {
+name Dot79
+xpos -1003
+ypos -1205
+}
+set N2a876c00 [stack 0]
+Dot {
+name Dot80
+xpos -893
+ypos -1205
+}
+set N4f98ec00 [stack 0]
+Dot {
+name Dot81
+xpos -799
+ypos -1205
+}
+set N3bba6400 [stack 0]
+Dot {
+name Dot82
+xpos -689
+ypos -1205
+}
+set N42e04000 [stack 0]
+Dot {
+name Dot83
+xpos -554
+ypos -1205
+}
+Colorspace {
+colorspace_out HSV
+name HSV
+xpos -588
+ypos -1139
+}
+Shuffle {
+red blue
+green blue
+alpha blue
+name Shuffle8
+tile_color 0x395ba3ff
+label "\[value in]"
+xpos -588
+ypos -1115
+}
+push $N42e04000
+Colorspace {
+colorspace_out CIE-Lab
+name Lab
+xpos -723
+ypos -1139
+}
+Shuffle {
+green red
+blue red
+alpha red
+name Shuffle9
+tile_color 0x8d4141ff
+label "\[value in]"
+xpos -723
+ypos -1115
+}
+push $N3bba6400
+Colorspace {
+colorspace_out HSL
+name HSL
+xpos -833
+ypos -1138
+}
+Shuffle {
+red blue
+green blue
+alpha blue
+name Shuffle19
+tile_color 0x395ba3ff
+label "\[value in]"
+xpos -833
+ypos -1114
+}
+push $N4f98ec00
+Expression {
+temp_name0 cc
+temp_expr0 max(r,g,b)
+expr0 cc
+channel1 rgb
+expr1 cc
+channel2 rgb
+expr2 cc
+expr3 a
+name MaxRGB
+xpos -927
+ypos -1138
+}
+Switch {
+inputs 4
+which {{parent.solarizationMethod}}
+name method_switch
+xpos -833
+ypos -1028
+}
+Dot {
+name Dot84
+xpos -799
+ypos -982
+}
+set N4fab8000 [stack 0]
+Dot {
+name Dot76
+xpos -794
+ypos 985
+}
+set Nbd601400 [stack 0]
+push $N2a876c00
+push $N4fab8000
+Dot {
+name Dot85
+xpos -899
+ypos -982
+}
+Merge2 {
+inputs 2
+operation divide
+name Divide
+xpos -1037
+ypos -985
+}
+push $N4fcdf400
+Switch {
+inputs 2
+which {{parent.solarize}}
+name SolarazeSwitch
+xpos -1224
+ypos -985
+}
+Dot {
+name Dot2
+xpos -1185
+ypos -607
+}
+set Nd5a12400 [stack 0]
+Dot {
+name Dot1
+xpos -1718
+ypos -607
+}
+set N454ee800 [stack 0]
+Shuffle {
+red blue
+green blue
+alpha black
+name Shuffle10
+tile_color 0xffff
+xpos -1805
+ypos -459
+}
+push $N454ee800
+Shuffle {
+red green
+blue green
+alpha black
+name Shuffle3
+tile_color 0xff00ff
+xpos -1697
+ypos -459
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch1
+xpos -1752
+ypos -354
+}
+Dot {
+name Dot20
+xpos -1718
+ypos -247
+}
+set N6f180800 [stack 0]
+push $N6f180800
+Dot {
+name Dot15
+xpos -1085
+ypos -247
+}
+push $Nd5a12400
+Dot {
+name Dot3
+xpos -449
+ypos -607
+}
+set N4f8a4c00 [stack 0]
+Shuffle {
+red green
+blue green
+alpha black
+name Shuffle11
+tile_color 0xff00ff
+xpos -416
+ypos -449
+}
+push $N4f8a4c00
+Shuffle {
+red blue
+green blue
+alpha black
+name Shuffle5
+tile_color 0xffff
+xpos -562
+ypos -444
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch2
+xpos -483
+ypos -327
+}
+Dot {
+name Dot28
+xpos -449
+ypos -162
+}
+set N70ecc000 [stack 0]
+push $Nd5a12400
+Shuffle {
+green red
+blue red
+alpha black
+name Shuffle4
+tile_color 0xff0000ff
+xpos -1219
+ypos -442
+}
+set N4f87cc00 [stack 0]
+Dot {
+name Dot26
+xpos -936
+ypos -439
+}
+Dissolve {
+inputs 2
+channels rgb
+which {{parent.spillBias}}
+name WeightedAverage
+label BIAS
+xpos -970
+ypos -171
+}
+Gamma {
+channels rgb
+value {{parent.spillThreshold}}
+name spillThreshold
+xpos -970
+ypos -115
+}
+Dot {
+name Dot94
+note_font_size 32
+note_font_color 0x808080ff
+xpos -936
+ypos -17
+}
+Merge2 {
+inputs 2
+operation minus
+name Merge11
+xpos -1119
+ypos -20
+}
+Expression {
+expr0 r<0?0:r
+expr1 g<0?0:g
+expr2 b<0?0:b
+name ClipNegative
+xpos -1119
+ypos 35
+}
+Dot {
+name Dot93
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1085
+ypos 119
+}
+set Nba2df800 [stack 0]
+Multiply {
+channels rgb
+value {{parent.neutralize?parent.spillAdjustment.r:0} {parent.neutralize?parent.spillAdjustment.g:1} {parent.neutralize?parent.spillAdjustment.b:0} 0}
+name GradeDespill
+label "Nutralize Spill\nCalculated by python script\nby sampling colors at helper pos"
+xpos -1119
+ypos 153
+}
+Dot {
+name Dot6
+xpos -1085
+ypos 279
+}
+set N2ba20400 [stack 0]
+Merge2 {
+inputs 2
+operation minus
+name Merge2
+xpos -1752
+ypos 275
+}
+Dot {
+name Dot31
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1718
+ypos 312
+}
+set N4f79cc00 [stack 0]
+Dot {
+name Dot50
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1425
+ypos 312
+}
+Dot {
+name Dot68
+xpos -1425
+ypos 483
+}
+set N706b9c00 [stack 0]
+Shuffle {
+red black
+green black
+alpha black
+name Shuffle17
+tile_color 0xffff
+xpos -1391
+ypos 561
+}
+push $N706b9c00
+Shuffle {
+red black
+blue black
+alpha black
+name Shuffle18
+tile_color 0xff00ff
+xpos -1522
+ypos 560
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch15
+xpos -1445
+ypos 631
+}
+Dot {
+name Dot51
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1411
+ypos 782
+}
+push 0
+push $N2ba20400
+Dot {
+name Dot23
+xpos -540
+ypos 279
+}
+push $N70ecc000
+Merge2 {
+inputs 2
+operation plus
+name Merge9
+xpos -483
+ypos 411
+}
+set N706f9400 [stack 0]
+Dot {
+name Dot67
+xpos -681
+ypos 414
+}
+Dot {
+name Dot32
+xpos -681
+ypos 643
+}
+set Nb9a7c800 [stack 0]
+Shuffle {
+red black
+blue black
+alpha black
+name Shuffle14
+tile_color 0xff00ff
+xpos -653
+ypos 728
+}
+push $Nb9a7c800
+Shuffle {
+red black
+green black
+alpha black
+name Shuffle15
+tile_color 0xffff
+xpos -764
+ypos 728
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch6
+xpos -705
+ypos 779
+}
+push $N2ba20400
+push $N4f87cc00
+Dot {
+name Dot4
+xpos -1185
+ypos 389
+}
+Merge2 {
+inputs 2
+operation plus
+name Merge8
+xpos -1119
+ypos 386
+}
+Dot {
+name Dot24
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1085
+ypos 415
+}
+set N707bf400 [stack 0]
+Dot {
+name Dot33
+note_font_size 32
+note_font_color 0x808080ff
+xpos -892
+ypos 415
+}
+Shuffle {
+green black
+blue black
+alpha black
+name Shuffle16
+tile_color 0xff0000ff
+xpos -926
+ypos 509
+}
+Merge2 {
+inputs 3+1
+operation plus
+name DefaultDespil
+label "before spill \ncolor fineTune"
+xpos -926
+ypos 767
+}
+Merge2 {
+inputs 2
+operation multiply
+name deSolarize
+xpos -926
+ypos 982
+disable {{!parent.solarize}}
+}
+Dot {
+name Dot75
+xpos -892
+ypos 1310
+}
+Merge2 {
+inputs 2
+operation minus
+name Merge10
+xpos -277
+ypos 1307
+}
+Saturation {
+saturation 0
+mode Maximum
+name Saturation2
+xpos -277
+ypos 1360
+}
+Dot {
+name Dot90
+xpos -243
+ypos 1400
+}
+set N4fd82c00 [stack 0]
+Dot {
+name Dot57
+xpos -4
+ypos 1400
+}
+set N50771c00 [stack 0]
+Dot {
+name Dot14
+xpos 719
+ypos 1400
+}
+push $N4fd82c00
+Grade {
+whitepoint {{1/parent.bgMix}}
+white 4
+gamma {{parent.bgMixThreshold}}
+white_clamp true
+name Grade10
+label "BG/Edge Mix\nbgMix, bgMixThreshhold"
+xpos -277
+ypos 1506
+}
+set N706f9c00 [stack 0]
+Dot {
+name Dot18
+note_font_size 32
+note_font_color 0x808080ff
+xpos 112
+ypos 1521
+}
+set Nd9828000 [stack 0]
+ShuffleCopy {
+inputs 2
+red red
+green red2
+blue black
+alpha black
+name ShuffleCopy3
+xpos 685
+ypos 1518
+}
+Dot {
+name Dot62
+xpos 719
+ypos 5771
+}
+push $Nd9828000
+Dot {
+name Dot22
+note_font_size 32
+note_font_color 0x808080ff
+xpos 112
+ypos 1588
+}
+Input {
+inputs 0
+name BG
+xpos 158
+ypos -1730
+number 1
+}
+Remove {
+operation keep
+channels rgb
+name Remove4
+xpos 158
+ypos -1588
+}
+Blur {
+channels rgb
+size {{parent.bgBlurCore}}
+name bgBlur
+xpos 163
+ypos 1557
+disable {{parent.showBG}}
+}
+CopyBBox {
+inputs 2
+name BBoxRestore
+xpos 163
+ypos 1610
+}
+Dot {
+name Dot29
+note_font_size 32
+note_font_color 0x808080ff
+xpos 197
+ypos 1656
+}
+set N50a4cc00 [stack 0]
+Keyer {
+operation "luminance key"
+range {0.5199412492 1 1 1}
+name BGLumaKeyer
+xpos 163
+ypos 1746
+}
+Dot {
+name Dot9
+xpos 197
+ypos 1863
+}
+set N7101bc00 [stack 0]
+push $N50a4cc00
+push $N706f9c00
+Multiply {
+channels rgb
+value 0
+mix {{1-parent.coreWeight}}
+name Multiply1
+xpos -277
+ypos 1566
+}
+set N4f8abc00 [stack 0]
+Merge2 {
+inputs 2
+operation multiply
+name Merge3
+xpos -277
+ypos 1653
+}
+push $N4f8abc00
+Dot {
+name Dot17
+xpos -345
+ypos 1569
+}
+Grade {
+white {0.1550000012 0.05232757702 0.108827047 1}
+name Grade7
+xpos -379
+ypos 1744
+}
+Switch {
+inputs 2
+which 1
+name Switch5
+xpos -277
+ypos 1782
+}
+Grade {
+inputs 1+1
+white {{parent.bgHighlights}}
+black_clamp false
+name Grade4
+label "BG Highlights"
+xpos -277
+ypos 1854
+}
+set N4f62d000 [stack 0]
+Dot {
+name Dot42
+xpos -243
+ypos 3965
+}
+set N70b8fc00 [stack 0]
+Dot {
+name Dot7
+note_font_size 32
+note_font_color 0x808080ff
+xpos -138
+ypos 3965
+}
+set Nf3f64c00 [stack 0]
+Dot {
+name Dot11
+xpos 497
+ypos 3965
+}
+Dot {
+name Dot59
+xpos 497
+ypos 5730
+}
+push $Nbd601400
+push $Nba2df800
+Dot {
+name Dot64
+xpos -975
+ypos 119
+}
+Multiply {
+channels rgb
+value {{parent.spillFineTune.r} {parent.spillFineTune.g} {parent.spillFineTune.b} {curve}}
+name Tint
+label "Fine tune color of despill"
+xpos -1009
+ypos 221
+disable {{!parent.tintSpill}}
+}
+Dot {
+name Dot8
+xpos -975
+ypos 351
+}
+set N3e134c00 [stack 0]
+Dot {
+name Dot12
+xpos -975
+ypos 448
+}
+set N4f718800 [stack 0]
+push $N706f9400
+Merge2 {
+inputs 2
+operation plus
+name MergeSpillTint2
+xpos -483
+ypos 445
+disable {{!parent.tintSpill}}
+}
+Dot {
+name Dot35
+xpos -449
+ypos 549
+}
+set Nfd9a3000 [stack 0]
+Shuffle {
+red black
+blue black
+alpha black
+name Shuffle13
+tile_color 0xff00ff
+xpos -424
+ypos 622
+}
+push $Nfd9a3000
+Shuffle {
+red black
+green black
+alpha black
+name Shuffle6
+tile_color 0xffff
+xpos -539
+ypos 621
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch4
+xpos -481
+ypos 682
+}
+push 0
+push $N3e134c00
+push $N4f79cc00
+Merge2 {
+inputs 2
+operation plus
+name MergeSpillTint
+xpos -1752
+ypos 348
+disable {{!parent.tintSpill}}
+}
+Dot {
+name Dot36
+xpos -1718
+ypos 524
+}
+set N45d38400 [stack 0]
+Shuffle {
+red black
+green black
+alpha black
+name Shuffle12
+tile_color 0xffff
+xpos -1675
+ypos 590
+}
+push $N45d38400
+Shuffle {
+red black
+blue black
+alpha black
+name Shuffle1
+tile_color 0xff00ff
+xpos -1805
+ypos 589
+}
+Switch {
+inputs 2
+which {{parent.spillColour}}
+name Switch3
+xpos -1747
+ypos 672
+}
+Dot {
+name Dot25
+xpos -1713
+ypos 920
+}
+push $N4f718800
+push $N707bf400
+Merge2 {
+inputs 2
+operation plus
+name MergeSpillTint1
+xpos -1119
+ypos 445
+disable {{!parent.tintSpill}}
+}
+Shuffle {
+green black
+blue black
+alpha black
+name Shuffle2
+tile_color 0xff0000ff
+xpos -1119
+ypos 509
+}
+Dot {
+name Dot52
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1085
+ypos 849
+}
+Dot {
+name Dot53
+note_font_size 32
+note_font_color 0x808080ff
+xpos -673
+ypos 849
+}
+Merge2 {
+inputs 3+1
+operation plus
+name DefaultDespilG
+xpos -707
+ypos 917
+}
+Merge2 {
+inputs 2
+operation multiply
+name deSolarize2
+xpos -707
+ypos 982
+disable {{!parent.solarize}}
+}
+Dot {
+name Dot91
+note_font_size 32
+note_font_color 0x808080ff
+xpos -673
+ypos 1204
+}
+set N459bf400 [stack 0]
+Dot {
+name Dot48
+xpos -673
+ypos 1410
+}
+set Nbde67400 [stack 0]
+Dot {
+name Dot10
+xpos -673
+ypos 1506
+}
+set N6eacec00 [stack 0]
+Dot {
+name Dot65
+xpos -1097
+ypos 1506
+}
+Crop {
+box {{parent.Sample.x} {parent.Sample.y} {parent.Sample.x+100} {parent.Sample.y+100}}
+reformat true
+crop false
+name Crop1
+xpos -1131
+ypos 1637
+}
+Shuffle {
+alpha white
+name Shuffle7
+xpos -1131
+ypos 1678
+}
+Blur {
+channels rgb
+size 21
+name Blur2
+xpos -1131
+ypos 1702
+}
+set N4fb11400 [stack 0]
+Dot {
+name Dot19
+xpos -966
+ypos 1705
+}
+Saturation {
+saturation 0
+mode Maximum
+name Saturation1
+xpos -1000
+ypos 1728
+}
+Transform {
+translate {100 0}
+center {25 24.5}
+name Transform1
+xpos -1000
+ypos 1755
+}
+push $N4fb11400
+Crop {
+box {0 0 200 100}
+reformat true
+name Crop2
+xpos -1131
+ypos 1738
+}
+Merge2 {
+inputs 2
+name Merge5
+xpos -1131
+ypos 1787
+}
+Transform {
+translate {{parent.Sample} {parent.Sample}}
+scale 2
+name Transform2
+xpos -1131
+ypos 1811
+}
+Dot {
+name Dot43
+xpos -1097
+ypos 5264
+}
+push $N459bf400
+Dot {
+name Dot38
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1295
+ypos 1204
+}
+Dot {
+name Dot44
+xpos -1295
+ypos 2608
+}
+Dot {
+name Dot40
+xpos -848
+ypos 2608
+}
+set Nb8e75c00 [stack 0]
+Dot {
+name Dot37
+xpos -727
+ypos 2608
+}
+Keyer {
+operation "luminance key"
+range {0.2774241679 0.8427125414 1 1}
+name HighlightsKeyer
+xpos -761
+ypos 2652
+}
+Dot {
+name Dot27
+note_font_size 32
+note_font_color 0x808080ff
+xpos -727
+ypos 2713
+}
+set N4fab9800 [stack 0]
+Dot {
+name Dot73
+xpos 308
+ypos 2713
+}
+Dot {
+name Dot74
+xpos 308
+ypos 4905
+}
+push $N70b8fc00
+Expression {
+expr0 abs(sin((x/2)-y/2))
+name Stripes
+xpos -277
+ypos 4007
+}
+Grade {
+channels {rgba.red -rgba.green -rgba.blue none}
+blackpoint 0.006
+white 1.2
+gamma 0.16
+white_clamp true
+name Grade3
+xpos -277
+ypos 4039
+}
+push $Nf3f64c00
+Expression {
+expr0 1
+name Constant
+xpos -172
+ypos 4011
+}
+Dot {
+name Dot13
+note_font_size 32
+note_font_color 0x808080ff
+xpos -138
+ypos 4080
+}
+Switch {
+inputs 2
+which {{parent.stripes}}
+name Switch9
+xpos -277
+ypos 4102
+}
+Dot {
+name Dot56
+xpos -243
+ypos 4711
+}
+set Nd5a12c00 [stack 0]
+Dot {
+name Dot72
+xpos -7
+ypos 4711
+}
+push $N7074d400
+Dot {
+name Dot34
+xpos -1922
+ypos -1607
+}
+Dot {
+name Dot55
+xpos -1922
+ypos 3163
+}
+set N707e3800 [stack 0]
+Dot {
+name Dot39
+xpos -1295
+ypos 3163
+}
+Grade {
+add {{parent.denoiseAmount}}
+black_clamp false
+enable_mix_luminance false
+name Grade5
+xpos -1023
+ypos 3159
+disable {{!parent.denoiseLuma}}
+}
+push $N4fab9800
+push $Nb8e75c00
+Multiply {
+channels rgb
+value {{parent.gradeHighlights} {parent.gradeHighlights} {parent.gradeHighlights} 0}
+name GradeHighlights
+xpos -882
+ypos 2678
+disable {{!parent.restorehighlights}}
+}
+Dot {
+name Dot30
+note_font_size 32
+note_font_color 0x808080ff
+xpos -848
+ypos 2739
+}
+push $N4f62d000
+push $N4fd82c00
+Dot {
+name Dot88
+xpos -424
+ypos 1400
+}
+set N3e5bbc00 [stack 0]
+Grade {
+whitepoint 0.21
+gamma 5
+white_clamp true
+enable_mix_luminance false
+name Grade2
+label "Crunch Mask"
+xpos -458
+ypos 1590
+}
+Dot {
+name Dot89
+xpos -424
+ypos 1646
+}
+push $N6eacec00
+push $Nbde67400
+push $N3e5bbc00
+Gamma {
+channels rgb
+value {{parent.subtractTreshold}}
+name subtractTreshold
+xpos -559
+ypos 1397
+}
+Merge2 {
+inputs 2
+operation min
+name Merge7
+xpos -559
+ypos 1448
+}
+Merge2 {
+inputs 2
+operation minus
+name Merge6
+xpos -559
+ypos 1503
+}
+Expression {
+expr0 r<0?0:r
+expr1 g<0?0:g
+expr2 b<0?0:b
+expr3 a<0?0:a
+name ClampNegative
+xpos -559
+ypos 1537
+}
+Dot {
+name Dot49
+note_font_size 32
+note_font_color 0x808080ff
+xpos -525
+ypos 1591
+}
+push $N6eacec00
+Dissolve {
+inputs 2
+channels rgb
+which {{parent.subtractSpill}}
+name subtractSpill
+label "Tune Luma"
+xpos -707
+ypos 1582
+disable {{!parent.subtractSpill_enable}}
+}
+Saturation {
+inputs 1+1
+saturation {{parent.spillSaturation}}
+maskChannelMask rgba.red
+name Saturation3
+xpos -707
+ypos 1643
+disable {{!parent.spillSaturation_enable}}
+}
+Dot {
+name Dot41
+note_font_size 32
+note_font_color 0x808080ff
+xpos -673
+ypos 1746
+}
+Merge2 {
+inputs 2
+operation plus
+mix {{1-parent.showBG}}
+name BGMerge
+label "Add BG Colour"
+xpos -707
+ypos 1854
+disable {{parent.showBG}}
+}
+Keymix {
+inputs 3
+channels rgb
+name Keymix1
+xpos -707
+ypos 2767
+disable {{!parent.restorehighlights}}
+}
+Grade {
+add {{parent.Grade5.add}}
+black_clamp false
+enable_mix_luminance false
+name Grade6
+xpos -707
+ypos 3097
+disable {{parent.Grade5.disable}}
+}
+Dot {
+name Dot70
+xpos -673
+ypos 3163
+}
+set N372af000 [stack 0]
+Merge2 {
+inputs 2
+operation divide
+name Merge23
+xpos -862
+ypos 3160
+}
+Saturation {
+saturation 0
+mode Maximum
+name Saturation5
+xpos -862
+ypos 3226
+}
+push $N372af000
+Merge2 {
+inputs 2
+operation multiply
+mix {{parent.restoreLuma}}
+name restoreLuma
+xpos -707
+ypos 3226
+disable {{!parent.restoreLuma_enable}}
+}
+Grade {
+add {{parent.Grade6.add}}
+reverse true
+black_clamp false
+enable_mix_luminance false
+name Grade8
+selected true
+xpos -707
+ypos 3292
+disable {{parent.Grade5.disable}}
+}
+Dot {
+name Dot45
+xpos -673
+ypos 4666
+}
+set N434cd400 [stack 0]
+Dot {
+name Dot16
+xpos -298
+ypos 4666
+}
+set N44aa3000 [stack 0]
+Dot {
+name Dot46
+xpos 56
+ypos 4666
+}
+Dissolve {
+inputs 2+1
+which 1
+name Highlights_recovery_overlay
+xpos 22
+ypos 4896
+}
+Dot {
+name Dot100
+note_font_size 32
+note_font_color 0x808080ff
+xpos 56
+ypos 5021
+}
+push $N7101bc00
+Dot {
+name Dot21
+xpos 197
+ypos 4764
+}
+Dot {
+name Dot95
+note_font_size 32
+note_font_color 0x808080ff
+xpos -108
+ypos 4764
+}
+set Ndf0c9400 [stack 0]
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name BG_Luma_Matte
+tile_color 0x8b8b8bff
+label "\[value in]"
+xpos -142
+ypos 4825
+}
+Dot {
+name Dot99
+note_font_size 32
+note_font_color 0x808080ff
+xpos -108
+ypos 4958
+}
+push $Ndf0c9400
+push $Nd5a12c00
+push $N44aa3000
+Dissolve {
+inputs 2+1
+which 1
+name BG_Luma_Overlay
+xpos -277
+ypos 4755
+}
+Dot {
+name Dot98
+note_font_size 32
+note_font_color 0x808080ff
+xpos -243
+ypos 4909
+}
+push $N50771c00
+Dot {
+name Dot92
+note_font_size 32
+note_font_color 0x808080ff
+xpos -4
+ypos 4276
+}
+Dot {
+name Dot86
+note_font_size 32
+note_font_color 0x808080ff
+xpos -434
+ypos 4276
+}
+set N706f8800 [stack 0]
+Dot {
+name Dot97
+note_font_size 32
+note_font_color 0x808080ff
+xpos -434
+ypos 4907
+}
+push $N707e3800
+Dot {
+name Dot71
+note_font_size 32
+note_font_color 0x808080ff
+xpos -1922
+ypos 4482
+}
+set N6ec9f400 [stack 0]
+push $N706f8800
+Dot {
+name Dot78
+note_font_size 32
+note_font_color 0x808080ff
+xpos -562
+ypos 4276
+}
+Shuffle {
+alpha green
+name Shuffle22
+label "\[value in]"
+xpos -596
+ypos 4404
+}
+Grade {
+channels rgba
+gamma 2.2
+black_clamp false
+enable_mix_luminance false
+name Grade1
+xpos -596
+ypos 4440
+}
+Merge2 {
+inputs 2
+operation in
+name Merge4
+xpos -596
+ypos 4479
+}
+Dot {
+name Dot96
+note_font_size 32
+note_font_color 0x808080ff
+xpos -562
+ypos 4908
+}
+Switch {
+inputs 5
+which {{parent.debugOut}}
+name debugOut_Selector
+xpos -373
+ypos 5094
+}
+Dot {
+name Dot58
+xpos -339
+ypos 5165
+}
+push $N434cd400
+Switch {
+inputs 2
+which {{parent.debugOutEnable}}
+name Switch11
+label "show spill"
+xpos -707
+ypos 5156
+}
+Merge2 {
+inputs 2
+name Merge1
+label "Helper Display"
+xpos -707
+ypos 5255
+disable {{!parent.showHelper}}
+}
+push $N6ec9f400
+Dot {
+name Dot60
+xpos -1922
+ypos 5536
+}
+Dot {
+name Dot87
+note_font_size 32
+note_font_color 0x808080ff
+xpos -802
+ypos 5536
+}
+set N398fb400 [stack 0]
+Dissolve {
+inputs 2
+channels rgb
+which {{parent.overall_mix}}
+name OverAll_Mix
+xpos -707
+ypos 5533
+}
+push $N398fb400
+Dot {
+name Dot54
+note_font_size 32
+note_font_color 0x808080ff
+xpos -802
+ypos 5599
+}
+Copy {
+inputs 2
+channels rgb
+name CopyRGBandKeepOtherLayers
+xpos -707
+ypos 5584
+}
+Dot {
+name Dot69
+xpos -673
+ypos 5678
+}
+set N706d2c00 [stack 0]
+Dot {
+name Dot61
+xpos -549
+ypos 5678
+}
+add_layer {despillColor despillColor.red despillColor.green despillColor.blue despillColor.alpha}
+ShuffleCopy {
+inputs 2
+alpha alpha2
+black red
+white green
+red2 blue
+green2 alpha
+out2 despillColor
+name ShuffleCopy1
+xpos -583
+ypos 5727
+}
+add_layer {despillMatte despillMatte.red despillMatte.green despillMatte.blue despillMatte.alpha}
+ShuffleCopy {
+inputs 2
+alpha alpha2
+black red
+white green
+red2 blue
+green2 alpha
+out2 despillMatte
+name ShuffleCopy2
+xpos -585
+ypos 5768
+}
+push $N706d2c00
+Switch {
+inputs 2
+which {{parent.outputChannels}}
+name Switch14
+label "output Channels"
+xpos -707
+ypos 5762
+}
+Output {
+name Output1
+xpos -707
+ypos 6162
+}
+end_group

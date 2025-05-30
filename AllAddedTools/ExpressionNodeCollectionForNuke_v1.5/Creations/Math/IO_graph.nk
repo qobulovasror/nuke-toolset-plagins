@@ -1,0 +1,56 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x3f5488ff
+ label "Insert Color\nnode here."
+ note_font "Verdana Bold"
+ note_font_size 14
+ selected true
+ xpos 198
+ ypos -24
+ bdwidth 168
+ bdheight 81
+}
+push $cut_paste_input
+Reformat {
+ type "to box"
+ format "256 256 0 0 256 256 1 square_256"
+ box_width 1024
+ box_height {{box_width}}
+ box_fixed true
+ name Reformat1
+ selected true
+ xpos 245
+ ypos -71
+}
+Ramp {
+ p0 {0 0}
+ p1 {{width} 0}
+ name Ramp1
+ selected true
+ xpos 245
+ ypos -47
+}
+Expression {
+ expr0 "y==floor(r(x, 1)*height)?mult:0"
+ expr1 "y==floor(g(x, 1)*height)?mult:0"
+ expr2 "y==floor(b(x, 1)*height)?mult:0"
+ channel3 alpha
+ name Expression1
+ selected true
+ xpos 245
+ ypos 70
+ addUserKnob {20 User}
+ addUserKnob {7 mult R 0 5}
+ mult 1
+}
+Dilate {
+ size 6
+ name Dilate1
+ label "\[value size]"
+ selected true
+ xpos 245
+ ypos 94
+}

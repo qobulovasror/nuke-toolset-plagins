@@ -1,0 +1,18 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Expression {
+ expr0 "abs(r) < approx_threshold ? 0 : r"
+ expr1 "abs(g) < approx_threshold ? 0 : g"
+ expr2 "abs(b) < approx_threshold ? 0 : b"
+ channel3 alpha
+ expr3 "abs(a) < approx_threshold ? 0 : a"
+ name Expression1
+ label "REMOVE TINY VALUES"
+ selected true
+ xpos 275
+ ypos 7
+ addUserKnob {20 User}
+ addUserKnob {7 approx_threshold l "Approximation Threshold" R 1e-07 0.0001}
+ approx_threshold 0.0001
+}

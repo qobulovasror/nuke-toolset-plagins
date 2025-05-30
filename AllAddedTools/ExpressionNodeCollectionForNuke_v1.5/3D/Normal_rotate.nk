@@ -1,0 +1,470 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+add_layer {normal normal.red normal.green normal.blue normal.alpha}
+Shuffle {
+ in normal
+ name Shuffle15
+ label "\[value in]"
+ selected true
+ xpos 19603
+ ypos 1539
+}
+Group {
+ name RotationMatrix
+ label "Rotate rgb"
+ selected true
+ xpos 19603
+ ypos 1594
+ addUserKnob {20 Rotation l "Rotation Matrix"}
+ addUserKnob {13 rot l Rotation}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -537
+  ypos 8
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(rotx))} {sin(radians(rotx))}}
+      {0 {-sin(radians(rotx))} {cos(radians(rotx))}}
+    }
+  name ColorMatrix1
+  label "Rot X"
+  xpos -537
+  ypos 48
+  addUserKnob {20 User}
+  addUserKnob {7 rotx l rotationx R -100 100}
+  rotx {{parent.rot.x}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(roty))} 0 {-sin(radians(roty))}}
+      {0 1 0}
+      {{sin(radians(roty))} 0 {cos(radians(roty))}}
+    }
+  name ColorMatrix2
+  label "Rot Y\n"
+  xpos -537
+  ypos 89
+  addUserKnob {20 User}
+  addUserKnob {7 roty l rotationY R -100 100}
+  roty {{parent.rot.z}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(rotz))} {sin(radians(rotz))} 0}
+      {{-sin(radians(rotz))} {cos(radians(rotz))} 0}
+      {0 0 1}
+    }
+  name ColorMatrix3
+  label "Rot Z"
+  xpos -537
+  ypos 125
+  addUserKnob {20 User}
+  addUserKnob {7 rotz l rotationZ R -100 100}
+  rotz {{parent.rot.y}}
+ }
+ Output {
+  name Output1
+  xpos -537
+  ypos 225
+ }
+ Group {
+  inputs 0
+  name ConvertNormal
+  selected true
+  xpos -365
+  ypos 146
+  addUserKnob {20 User l "convert normal"}
+  addUserKnob {41 wc l "Normal input" T ctrl.wc}
+  addUserKnob {41 no l "Normal output" -STARTLINE T ctrl.no}
+  addUserKnob {26 ""}
+  addUserKnob {41 compAV l "Compute angle of view" T ctrl.compAV}
+  addUserKnob {41 fr l "Facing Ratio" -STARTLINE T ctrl.fr}
+  addUserKnob {26 ""}
+  addUserKnob {26 text l "" +STARTLINE T "by Simon Moreau | visualprocess.blogspot.com"}
+ }
+  Input {
+   inputs 0
+   name Normal
+   xpos -537
+   ypos -276
+  }
+  Dot {
+   name Dot1
+   xpos -503
+   ypos -178
+  }
+set N12e7a800 [stack 0]
+push $N12e7a800
+push $N12e7a800
+  ColorMatrix {
+   matrix {
+       {{Camera1.world_matrix.0} {Camera1.world_matrix.1} {Camera1.world_matrix.2}}
+       {{Camera1.world_matrix.4} {Camera1.world_matrix.5} {Camera1.world_matrix.6}}
+       {{Camera1.world_matrix.8} {Camera1.world_matrix.9} {Camera1.world_matrix.10}}
+     }
+   invert {{1-ctrl.wc x126 0}}
+   name ColorMatrix1
+   xpos -385
+   ypos 154
+  }
+set N12e7ac00 [stack 0]
+  Switch {
+   inputs 2
+   which {{"ctrl.wc == 0"}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch6
+   xpos -1083
+   ypos 1091
+  }
+  Input {
+   inputs 0
+   name Camera
+   xpos -1301
+   ypos -406
+   number 1
+  }
+  Camera2 {
+   focal {{input1.focal}}
+   haperture {{input1.haperture}}
+   vaperture {{input1.vaperture}}
+   name Camera1
+   xpos -1291
+   ypos -300
+  }
+set N12e7b400 [stack 0]
+  Sphere {
+   inputs 0
+   display off
+   rows 180
+   columns 180
+   translate {{parent.Camera1.world_matrix.3} {parent.Camera1.world_matrix.7} {parent.Camera1.world_matrix.11}}
+   uniform_scale 100
+   name Sphere2
+   xpos -1795
+   ypos -417
+  }
+set N12e7b800 [stack 0]
+push $N12e7a800
+  Dot {
+   name Dot10
+   xpos -1722
+   ypos -178
+  }
+set N12e7bc00 [stack 0]
+add_layer {N N.red N.green N.blue N.alpha N.x N.y N.z N.r N.g N.b}
+  ScanlineRender {
+   inputs 3
+   projection_mode perspective
+   motion_vectors_type distance
+   output_shader_vectors true
+   N_channel {N.red N.green N.blue}
+   name ScanlineRender2
+   xpos -1679
+   ypos 53
+  }
+  Shuffle {
+   in {N.red N.green N.blue N.alpha}
+   name Shuffle1
+   xpos -1679
+   ypos 120
+  }
+  ColorCorrect {
+   gain -1
+   name ColorCorrect4
+   xpos -1679
+   ypos 190
+  }
+push $N12e7ac00
+push $N12e7a800
+  Switch {
+   inputs 2
+   which {{"ctrl.wc == 0 ? 0 : 1"}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch1
+   xpos -537
+   ypos 154
+  }
+  Dot {
+   name Dot5
+   xpos -1477
+   ypos 506
+  }
+set Na434c00 [stack 0]
+  MergeExpression {
+   inputs 2
+   channel0 {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+   expr2 Ar*Br+Ag*Bg+Ab*Bb
+   name MergeExpression6
+   xpos -1679
+   ypos 625
+  }
+set Na435000 [stack 0]
+push $N12e7b400
+  Camera2 {
+   rotate {90 0 0}
+   useMatrix true
+   matrix {
+       {1 0 0 0}
+       {0 0 -1 0}
+       {0 1 0 0}
+       {0 0 0 1}
+     }
+   name Camera3
+   xpos -1923
+   ypos -357
+  }
+push $N12e7b800
+push $N12e7bc00
+  ScanlineRender {
+   inputs 3
+   projection_mode perspective
+   shutter 0
+   motion_vectors_type distance
+   output_shader_vectors true
+   N_channel {N.red N.green N.blue}
+   name ScanlineRender4
+   xpos -1933
+   ypos 54
+  }
+  Shuffle {
+   in {N.red N.green N.blue N.alpha}
+   name Shuffle4
+   xpos -1933
+   ypos 109
+  }
+  Expression {
+   expr0 r(540,y)
+   expr1 g(540,y)
+   expr2 b(540,y)
+   name Expression1
+   xpos -1933
+   ypos 179
+  }
+set Nf009a000 [stack 0]
+  Dot {
+   name Dot6
+   xpos -1899
+   ypos 759
+  }
+push $Na434c00
+  MergeExpression {
+   inputs 2
+   expr0 0
+   expr1 Ar*Br+Ag*Bg+Ab*Bb
+   expr2 0
+   name MergeExpression4
+   xpos -1678
+   ypos 756
+  }
+push $N12e7b400
+  Camera2 {
+   rotate {0 -90 0}
+   useMatrix true
+   matrix {
+       {0 0 -1 0}
+       {0 1 0 0}
+       {1 0 0 0}
+       {0 0 0 1}
+     }
+   name Camera2
+   xpos -1645
+   ypos -300
+  }
+push $N12e7b800
+push $N12e7bc00
+  ScanlineRender {
+   inputs 3
+   projection_mode perspective
+   motion_vectors_type distance
+   output_shader_vectors true
+   N_channel {N.red N.green N.blue}
+   name ScanlineRender3
+   xpos -1819
+   ypos 54
+  }
+  Shuffle {
+   in {N.red N.green N.blue N.alpha}
+   name Shuffle3
+   xpos -1819
+   ypos 129
+  }
+  Expression {
+   expr0 r(x,960)
+   expr1 g(x,960)
+   expr2 b(x,960)
+   name Expression2
+   xpos -1819
+   ypos 182
+  }
+  Dot {
+   name Dot7
+   xpos -1785
+   ypos 682
+  }
+push $Na434c00
+  MergeExpression {
+   inputs 2
+   expr0 Ar*Br+Ag*Bg+Ab*Bb
+   expr1 0
+   expr2 0
+   name MergeExpression5
+   xpos -1675
+   ypos 679
+  }
+  Dot {
+   name Dot4
+   xpos -1457
+   ypos 682
+  }
+push 0
+push $Na435000
+  Dot {
+   name Dot3
+   xpos -1453
+   ypos 628
+  }
+push $N12e7a800
+  Expression {
+   expr0 0
+   expr1 0
+   expr2 0
+   name setTo0
+   xpos -1390
+   ypos 595
+  }
+  Merge2 {
+   inputs 4+1
+   operation plus
+   name Merge1
+   xpos -1390
+   ypos 756
+  }
+  Switch {
+   inputs 2
+   which {{ctrl.fr}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch3
+   xpos -1390
+   ypos 829
+  }
+  Shuffle {
+   red blue
+   green blue
+   alpha blue
+   name Shuffle2
+   xpos -1390
+   ypos 913
+   disable {{1-ctrl.fr}}
+  }
+push $N12e7ac00
+  Switch {
+   inputs 2
+   which {{"ctrl.compAV == 1 || ctrl.fr == 1 ? 1 : 0"}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch2
+   xpos -1390
+   ypos 993
+  }
+  Switch {
+   inputs 2
+   which {{"ctrl.no == 0 && ctrl.fr == 0 ? 1 : 0"}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch5
+   xpos -1390
+   ypos 1091
+  }
+  Switch {
+   inputs 2
+   which {{"ctrl.wc == ctrl.no && ctrl.compAV == 0 && ctrl.fr == 0 ? 1 : 0"}}
+   patterns {
+    {i0 ""}
+    {i1 ""}
+   }
+   name Switch4
+   xpos -1390
+   ypos 1224
+  }
+  Output {
+   name Output1
+   xpos -1390
+   ypos 1324
+  }
+  NoOp {
+   inputs 0
+   name ctrl
+   xpos -1108
+   ypos 95
+   addUserKnob {20 User}
+   addUserKnob {68 wc l "Normal input" M {World Camera ""}}
+   addUserKnob {68 no l "Normal output" M {World Camera}}
+   no Camera
+   addUserKnob {6 compAV l "Compute angle of view" +STARTLINE}
+   addUserKnob {6 fr l "Facing Ratio" -STARTLINE}
+  }
+push $Nf009a000
+  Viewer {
+   frame_range 1-100
+   name Viewer1
+   xpos -1360
+   ypos -9
+   hide_input true
+  }
+ end_group
+ Viewer {
+  frame_range 1-100
+  name Viewer1
+  xpos -40
+  ypos -9
+  hide_input true
+ }
+end_group
+Expression {
+ expr3 max((r*norm.r)+(g*norm.g)+(b*norm.b),0)
+ name Expression
+ label RELIGHT
+ selected true
+ xpos 19603
+ ypos 1670
+ addUserKnob {20 User}
+ addUserKnob {7 round l left/right R -100 100}
+ round -19
+ addUserKnob {7 around l up/down R -100 100}
+ around -100
+ addUserKnob {26 ""}
+ addUserKnob {7 rad}
+ rad {{cos(radians(around))}}
+ addUserKnob {7 lx}
+ lx {{rad*cos(radians(round))}}
+ addUserKnob {7 ly}
+ ly {{sin(radians(around))}}
+ addUserKnob {7 lz}
+ lz {{rad*sin(radians(round))}}
+ addUserKnob {18 norm}
+ norm {{lx/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {ly/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {lz/sqrt(pow2(lx)+pow2(ly)+pow2(lz))}}
+ addUserKnob {6 norm_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 norm_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+}

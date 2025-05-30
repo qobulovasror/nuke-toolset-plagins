@@ -1,0 +1,23 @@
+How to install Mango Suite 
+
+1.) Unzip the MangoSuite file.
+
+2.) Go inside the MangoSuite file and copy the entire "MangoSuite" folder in it into the .nuke folder on 
+    your C drive. (C/user/.nuke)  (you can find it also by pressing windows + r, type .nuke and press enter.
+    The main folder has to be named "MangoSuite" in order for the toolbar to work properly so don't rename it.
+
+3.) If you don't have a "init.py" text file in your .nuke folder create one by opening 
+    the editor and simply creating a file in the .nuke folder with the name "init.py". To save the init.py 
+    properly you also need to change the file type dropdown to "all files".
+
+4.) paste this information into the init.py file and save it:
+
+import os
+import nuke
+
+# Mango Suite (Johannes Kretschmer)
+nuke.pluginAddPath('./MangoSuite')
+
+4.) restart nuke and enjoy :)
+
+

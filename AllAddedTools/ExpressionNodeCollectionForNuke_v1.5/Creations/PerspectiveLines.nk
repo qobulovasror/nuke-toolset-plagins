@@ -1,0 +1,101 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+Expression {
+ inputs 0
+ expr0 "clamp((size - sqrt( (x-center.x) * (x-center.x) + (y-center.y) * (y-center.y) ) ) / gradient)"
+ expr1 "clamp((size - sqrt( (x-center.x) * (x-center.x) + (y-center.y) * (y-center.y) ) ) / gradient)"
+ expr2 "clamp((size - sqrt( (x-center.x) * (x-center.x) + (y-center.y) * (y-center.y) ) ) / gradient)"
+ expr3 "clamp((size - sqrt( (x-center.x) * (x-center.x) + (y-center.y) * (y-center.y) ) ) / gradient)"
+ name RadialGradient
+ selected true
+ xpos 1269
+ ypos -99
+ addUserKnob {20 User}
+ addUserKnob {12 center}
+ center {{parent.Radial_Rays.center} {parent.Radial_Rays.center}}
+ addUserKnob {7 size R 0 1000}
+ size 20
+ addUserKnob {7 gradient R 0 1000}
+}
+Shuffle {
+ green black
+ blue black
+ name Shuffle2
+ label "\[value in]"
+ selected true
+ xpos 1269
+ ypos -1
+}
+Dot {
+ name Dot1
+ selected true
+ xpos 1303
+ ypos 116
+}
+push $cut_paste_input
+Expression {
+ expr0 "sin( ( atan(x - center.x, y - center.y)+rad+offset) * size)"
+ expr1 "sin( ( atan(x - center.x, y - center.y)+rad+offset) * size)"
+ expr2 "sin( ( atan(x - center.x, y - center.y)+rad+offset) * size)"
+ expr3 "sin( ( atan(x - center.x, y - center.y)+rad+offset) * size)"
+ name Radial_Rays
+ selected true
+ xpos 1452
+ ypos -105
+ addUserKnob {20 User}
+ addUserKnob {3 offset}
+ offset 24
+ addUserKnob {7 size R 0 10}
+ size 4
+ addUserKnob {26 ""}
+ addUserKnob {12 center}
+ center {1070 640}
+ addUserKnob {12 point}
+ point {1934 648}
+ addUserKnob {26 ""}
+ addUserKnob {7 rad}
+ rad {{"atan2((point.x - center.x), (point.y - center.y))"}}
+}
+Grade {
+ channels rgba
+ whitepoint 0
+ white_clamp true
+ name Grade1
+ label rgba
+ selected true
+ xpos 1452
+ ypos -14
+}
+EdgeDetectWrapper {
+ name EdgeDetect2
+ selected true
+ xpos 1452
+ ypos 22
+}
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle1
+ tile_color 0xffffffff
+ selected true
+ xpos 1452
+ ypos 65
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ label "\[ expr \{ \[value mix] == 1 ? \" \" : \[value mix] \}]"
+ selected true
+ xpos 1452
+ ypos 113
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "<b>https://www.youtube.com/watch?v=wVTut2qIXrw&ab_channel=SplitTheDiff        ."
+ note_font_size 20
+ selected true
+ xpos 1585
+ ypos 8
+}

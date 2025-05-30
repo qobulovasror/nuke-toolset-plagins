@@ -1,0 +1,722 @@
+Gizmo {
+name Blendspill
+inputs 4
+onCreate "n = nuke.thisNode()\nn\['erode'].setRange(-50,50)\nn\['bias'].setFlag(0x00000004)"
+knobChanged "n = nuke.thisNode()\nk = nuke.thisKnob()\nkn = k.name()\n\nif kn == \"gamma\":\n    kv = k.value()\n    if kv != 1:\n        n.knobs()\[\"gain\"].setEnabled(True)\n    else:\n        n.knobs()\[\"gain\"].setEnabled(False)\n\nelif kn == \"fill\":\n    kv = k.value()\n    for knob_name in \[\"smoothness\", \"erode\", \"filter\", \"lab\", \"feather\", \"preview_fill\", \"filter_3\"]:\n        n.knobs()\[knob_name].setVisible(kv)\n    if kv == False:\n        n.knobs()\[\"preview_fill\"].setValue(kv)\n\nelif kn == \"bmask\":\n    kv = k.value()\n    for knob_name in \[\"invert_mask\", \"preview_mask\", \"mode\", \"blackpoint\", \"whitepoint\", \"gamma_mask\", \"blur\", \"spill2\"]:\n        n.knobs()\[knob_name].setVisible(kv)\n    if kv == False:\n        n.knobs()\[\"preview_mask\"].setValue(kv)\n        \nelif kn == \"preview_fill\":\n    if k.value() == True:\n        n.knobs()\[\"preview_mask\"].setValue(False)\n\nelif kn == \"preview_mask\":\n    if k.value() == True:\n        n.knobs()\[\"preview_fill\"].setValue(False)\n\nelif n.input(2) is None or n.input(0) is None:\n    n.knobs()\[\"checkinput\"].setValue(1)\nelse:\n    n.knobs()\[\"checkinput\"].setValue(0)"
+tile_color 0x1a844ff
+addUserKnob {20 Blendspill}
+addUserKnob {26 ""}
+addUserKnob {4 spill l "spill type" t "RGB spill:  choose this if you've already extracted the spill information as rgb.\n\nAlpha spill: choose this if you've got the despill matte in the alpha channel" M {"rgb spill" "alpha spill" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""}}
+addUserKnob {6 checkinput -STARTLINE +INVISIBLE}
+addUserKnob {7 gamma t "Controls the gamma of the process.\n\nThe gamma value ideally remains at 1 in most cases. \n\nHowever, if you're noticing artifacts, or the output looks overly contrasty, increasing the gamma can help mitigate these issues." R 1 10}
+gamma 1
+addUserKnob {7 gain l contrast t "Controls the contrast of the gamma curve. \n\nTypically, you increase the gamma when the output has values that are too dark. That usually fixes the problem, but it might lead to flat and desaturated edges.\n\nIncreasing the contrast helps with that.\n\nIf gamma is 1, contrast has no effect." +DISABLED R 1 5}
+gain 1
+addUserKnob {26 ""}
+addUserKnob {6 fill l "fill inside" t "Blurs the BG using the FG alpha as a mask. \n\nUse this to avoid a transparency effect." +STARTLINE}
+fill true
+addUserKnob {6 lab l L*a*b* t "Converts RGB channels into L*a*b* before the fill process" -STARTLINE}
+addUserKnob {6 preview_fill l preview t "Previews the filled BG" -STARTLINE}
+addUserKnob {7 smoothness t "The smoothness of the filled area. \n\nHigher values might reduce flickering between frames at the expense of local detail" R 1 10}
+smoothness 1
+addUserKnob {14 erode t "Erodes the fill mask. \n\nCan help in out of focus o blurred areas." R -50 50}
+addUserKnob {41 filter -STARTLINE T Blur3.filter}
+addUserKnob {14 feather t "Blurs the fill mask. \n\nCan help in out of focus o blurred areas." R 0 100}
+addUserKnob {41 filter_3 l filter -STARTLINE T Blur11.filter}
+addUserKnob {26 ""}
+addUserKnob {41 edgeblur l "spill blur" t "Blurs the spill information.\n\nSometimes the the spill information is too sharp or it has problems and blurring it may help." T Blur1.size}
+addUserKnob {41 filter_2 l filter -STARTLINE T Blur1.filter}
+addUserKnob {41 sharpen l "spill sharpen" t "Sharpens the spill information\n\nIf the spill information is blurrier than the despilled plate that mismatch may cause edge artifacts. sharpening it may help\n\nsize 0 equals no sharpen" T Sharpen1.amount}
+addUserKnob {41 sharpen_size l size -STARTLINE T Sharpen1.size}
+addUserKnob {41 filter_1 l filter -STARTLINE T Sharpen1.filter}
+addUserKnob {7 bias l "spill bias" t "When the green/blue screen covers just a small portion of the shot and there are a lot of semi transparent areas on top of it you might have issues.\n\nIncreasing the spill bias helps with that.\n\nIt also helps if the alpha is not that clean.\n\n0 (or almost 0) should be fine for most cases"}
+addUserKnob {6 color_rgb_panelDropped l "panel dropped state" +HIDDEN +STARTLINE}
+addUserKnob {26 ""}
+addUserKnob {7 respill l "respill balance" t "Controls the edge gamma for the respill effect. \n\nBy default, it is set to 0. Positive values decrease respill, while negative values increase it." R -1 2}
+addUserKnob {7 spill2 l "inv. balance" t "Respill balance using the inverse of the mask" +HIDDEN R -1 2}
+addUserKnob {6 bmask l "balance mask" t "Toggles a BG luma key for the respill" +STARTLINE}
+addUserKnob {6 invert_mask l invert t "Inverts the luma key" -STARTLINE +HIDDEN}
+addUserKnob {6 preview_mask l preview t "Previews the luma key" -STARTLINE +HIDDEN}
+addUserKnob {41 mode t "Saturation mode for the luma mask" +HIDDEN T Saturation2.mode}
+addUserKnob {41 blackpoint t "Controls the Luma key's blackpoint" +HIDDEN T Lumagrade.blackpoint}
+addUserKnob {41 whitepoint t "Controls the Luma key's whitepoint" +HIDDEN T Lumagrade.whitepoint}
+addUserKnob {41 gamma_mask l falloff t "Controls the Luma key's gamma" +HIDDEN T Lumagrade.gamma}
+addUserKnob {41 blur t "Controls the Luma key's blur" +HIDDEN T Blur2.size}
+addUserKnob {26 ""}
+addUserKnob {6 premult l premultiply t "Not technically a premult so beware of negative values. \n\nThere might be loose pixels if the alpha is not clean.\n\nThere is a black and white clamp in case you need or you experience artifacts." +STARTLINE}
+addUserKnob {41 black_clamp l "black clamp" -STARTLINE T Clampgrade.black_clamp}
+addUserKnob {41 white_clamp l "white clamp" -STARTLINE T Clampgrade.white_clamp}
+addUserKnob {26 "" l mask T ""}
+addUserKnob {41 maskChannelMask l "" -STARTLINE T Merge3.maskChannelMask}
+addUserKnob {41 inject -STARTLINE T Merge3.inject}
+addUserKnob {41 invert_mask_1 l invert -STARTLINE T Merge3.invert_mask}
+addUserKnob {41 fringe -STARTLINE T Merge3.fringe}
+addUserKnob {41 mix T Merge3.mix}
+addUserKnob {26 ""}
+addUserKnob {26 credits l "" +STARTLINE T "<span style=\"color:#475\"> <font size=2> <b>1E Blendspill v2.0</b> - 2024 - Juani Lomonaco </span>"}
+addUserKnob {20 Info}
+addUserKnob {26 setup l "" +STARTLINE T "<font size='5'>Setup and Troubleshooting</font> <br>"}
+addUserKnob {26 description l "" +STARTLINE T "<strong>Blendspill</strong>\nis designed to seamlessly blend the edges between a <br> <strong>despilled plate</strong> and the <strong>comp background </strong>in a simple way. <br><br> However, for it to function correctly, it needs a couple of things: <br>"}
+addUserKnob {26 ""}
+addUserKnob {26 instructions l "" +STARTLINE T "• The <strong>FG</strong> input has to be an <strong>unpremulted despilled plate.</strong><br> don't restore screen luminance in areas you want to affect.\n<br><br>\n\n• The <strong>FG</strong> input has to include the <strong>alpha channel</strong> from the key you pulled.<br><br>\n\n• <strong>Do not modify the BG</strong> before merging the Blendspilled plate <br> on top of it, as it may cause a mismatch.<br><br>\n\n• If you don't have the spill information, obtaining it is pretty easy.<br>\nPerform a from merge with the plate before despill as B <br> and the despilled plate as A.<br><br>\n\n• The <strong>alpha channel</strong> has to be as clean as possible. <br>Avoid having values higher than 0 in areas that should be keyed out.<br><br>\n\n• The most important knob is <strong>respill balance</strong><br>\nFocus on that one first, use the mask to help with exposure differences.\n<br><br>\n\n• If you're keying windows or other semi transparent things and you <br>  experience problems tweak your spill bias\n\n<br><br>\n\n• If you still have edge problems even after Blendspill, adjusting <br> your original despill may solve them. If not, I apologize.<br>\nInto exile I must go. Failed I have.\n\n\n<br><br>\n\n• 60% of the time, it works every time. ★★★☆☆"}
+addUserKnob {26 ""}
+addUserKnob {26 author l "" -STARTLINE T "<span style=\"color:#475\"><font size= 2>JUANILOMONACO@GMAIL.COM </span>"}
+}
+Input {
+inputs 0
+name InputFG
+xpos -661
+ypos -356
+}
+Dot {
+name Dot9
+xpos -627
+ypos -152
+}
+set N45312000 [stack 0]
+Dot {
+name Dot10
+xpos -337
+ypos -152
+}
+Remove {
+operation keep
+channels rgba
+name Remove2
+xpos -371
+ypos -33
+}
+Grade {
+white {{parent.gain*parent.gain}}
+gamma {{parent.gamma}}
+black_clamp false
+name Mastergrade
+xpos -371
+ypos 169
+}
+Dot {
+name Dot18
+xpos -337
+ypos 486
+}
+set N99e2c400 [stack 0]
+Dot {
+name Dot19
+xpos 1215
+ypos 486
+}
+AdjBBox {
+numpixels -1
+name AdjBBox2
+xpos 1181
+ypos 664
+}
+Dot {
+name Dot21
+xpos 1215
+ypos 771
+}
+set N99e2cc00 [stack 0]
+Dot {
+name Dot24
+xpos 1634
+ypos 771
+}
+set N99e2d800 [stack 0]
+Dot {
+name Dot12
+xpos 1898
+ypos 771
+}
+Remove {
+operation keep
+channels alpha
+name Remove4
+xpos 1864
+ypos 808
+}
+AdjBBox {
+numpixels 1
+name AdjBBox3
+xpos 1864
+ypos 865
+}
+Blur {
+channels alpha
+size {{abs(erode)} {abs(erode)}}
+name Blur3
+xpos 1864
+ypos 902
+}
+Invert {
+channels alpha
+name Invert3
+xpos 1864
+ypos 953
+disable {{erode>0?1:0}}
+}
+Grade {
+channels alpha
+white {{abs(erode)+1}}
+name Grade1
+xpos 1864
+ypos 999
+}
+Invert {
+channels alpha
+name Invert2
+xpos 1864
+ypos 1049
+disable {{parent.Invert3.disable}}
+}
+Clamp {
+channels alpha
+name Clamp1
+xpos 1864
+ypos 1113
+}
+Blur {
+channels alpha
+size {{parent.feather} {parent.feather}}
+name Blur11
+xpos 1864
+ypos 1169
+}
+Input {
+inputs 0
+name InputBG
+label "\[value number]"
+xpos 2039
+ypos 116
+number 1
+}
+Remove {
+operation keep
+channels rgba
+name Remove3
+xpos 2039
+ypos 207
+}
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+name Shuffle4
+xpos 2039
+ypos 279
+}
+Clamp {
+channels rgb
+maximum_enable false
+name Clamp3
+label blacks
+xpos 2039
+ypos 359
+}
+Inpaint2 {
+inputs 2
+fillRegion "Matte Alpha"
+smoothness {{parent.smoothness}}
+LABColourSpace {{parent.lab}}
+center {2048 1080}
+name Inpaint
+xpos 2039
+ypos 1175
+disable {{1-parent.fill}}
+}
+Dot {
+name Dot4
+xpos 2081
+ypos 1792
+}
+set Nd359c800 [stack 0]
+Dot {
+name Dot11
+xpos 2418
+ypos 1792
+}
+Dot {
+name Dot15
+xpos 2418
+ypos 3411
+}
+set Nd359d000 [stack 0]
+Dot {
+name Dot8
+xpos 2418
+ypos 4180
+}
+push $Nd359c800
+Dot {
+name Dot5
+xpos 1251
+ypos 1792
+}
+Dot {
+name Dot13
+xpos 1251
+ypos 1842
+}
+set Nd359dc00 [stack 0]
+Dot {
+name Dot14
+xpos 1381
+ypos 1842
+}
+Expression {
+expr0 1
+expr1 1
+expr2 1
+expr3 1
+name Expression1
+xpos 1347
+ypos 2120
+}
+Dot {
+name Dot2
+xpos 1382
+ypos 2248
+}
+push $Nd359dc00
+Saturation {
+saturation 0
+mode Average
+name Saturation2
+xpos 1217
+ypos 1912
+}
+Invert {
+name Invert1
+xpos 1217
+ypos 1958
+disable {{1-parent.invert_mask}}
+}
+Grade {
+blackpoint 0.1
+whitepoint 0.8
+white_clamp true
+name Lumagrade
+xpos 1217
+ypos 2022
+}
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.red 0 0 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+name Shuffle5
+xpos 1217
+ypos 2075
+}
+Blur {
+channels rgba
+name Blur2
+xpos 1217
+ypos 2115
+}
+Switch {
+inputs 2
+which {{1-parent.bmask}}
+name Switch2
+xpos 1217
+ypos 2245
+}
+Dot {
+name Dot30
+xpos 1251
+ypos 2370
+}
+set N5607c400 [stack 0]
+Dot {
+name Dot6
+xpos 1251
+ypos 2462
+}
+set N5607c800 [stack 0]
+Dot {
+name Dot1
+xpos 1251
+ypos 4025
+}
+Input {
+inputs 0
+name Inputmask
+label "\[value number]"
+xpos -837
+ypos 3728
+number 3
+}
+Dot {
+name Dot3
+note_font_size 41
+xpos -803
+ypos 3819
+}
+push $N99e2cc00
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 rgba.alpha 0 3 rgba.red 0 0 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+name Shuffle3
+label "\[value in1]\n"
+xpos 1181
+ypos 966
+}
+Log2Lin {
+channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+operation lin2log
+black 0
+white 1023
+gamma {{parent.bias/100}}
+name Log2Lin3
+xpos 1181
+ypos 1022
+}
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 black -1 -1 rgba.red 0 0 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+name Shuffle6
+xpos 1181
+ypos 1076
+}
+Clamp {
+channels alpha
+name Clamp5
+xpos 1181
+ypos 1120
+}
+Dot {
+name Dot22
+xpos 1215
+ypos 1420
+}
+set N85634800 [stack 0]
+push $N99e2d800
+Remove {
+channels alpha
+name Remove1
+xpos 1600
+ypos 809
+}
+Clamp {
+channels rgb
+maximum_enable false
+name Clamp2
+label blacks
+xpos 1600
+ypos 1131
+}
+Inpaint2 {
+inputs 2
+fillRegion "Matte Alpha"
+detailSource Detail
+name Inpaint1
+xpos 1600
+ypos 1417
+}
+Dot {
+name Dot25
+xpos 1634
+ypos 2423
+}
+push $Nd359c800
+Grade {
+blackpoint {{parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint}}
+whitepoint {{parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint}}
+black {{parent.Mastergrade.black} {parent.Mastergrade.black} {parent.Mastergrade.black} {parent.Mastergrade.black}}
+white {{parent.Mastergrade.white} {parent.Mastergrade.white} {parent.Mastergrade.white} {parent.Mastergrade.white}}
+multiply {{parent.Mastergrade.multiply} {parent.Mastergrade.multiply} {parent.Mastergrade.multiply} {parent.Mastergrade.multiply}}
+add {{parent.Mastergrade.add} {parent.Mastergrade.add} {parent.Mastergrade.add} {parent.Mastergrade.add}}
+gamma {{parent.Mastergrade.gamma} {parent.Mastergrade.gamma} {parent.Mastergrade.gamma} {parent.Mastergrade.gamma}}
+black_clamp false
+name Grade2
+xpos 2047
+ypos 2144
+disable {{parent.Mastergrade.disable}}
+}
+Merge2 {
+inputs 2
+operation from
+Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+also_merge all
+invert_mask true
+name Merge4
+xpos 2047
+ypos 2420
+}
+Dot {
+name Dot28
+xpos 2081
+ypos 2700
+}
+push $N5607c800
+push $N5607c400
+Input {
+inputs 0
+name Inputspill
+label "\[value number]"
+xpos 619
+ypos 663
+number 2
+}
+AdjBBox {
+numpixels -1
+name AdjBBox1
+xpos 619
+ypos 801
+}
+set N3e085000 [stack 0]
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 rgba.alpha 0 3 rgba.red 0 0 rgba.alpha 0 3 rgba.green 0 1 rgba.alpha 0 3 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3"
+name Shuffle2
+label "spill alpha"
+xpos 738
+ypos 884
+}
+push $N3e085000
+Shuffle2 {
+fromInput1 {{0} B}
+fromInput2 {{0} B}
+mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+name Shuffle1
+label "spill RGB"
+xpos 619
+ypos 886
+}
+Switch {
+inputs 2
+which {{parent.spill}}
+name Switch3
+xpos 619
+ypos 981
+}
+Saturation {
+saturation 0
+name Saturation1
+xpos 619
+ypos 1148
+}
+Clamp {
+channels rgb
+maximum_enable false
+name Clamp6
+label blacks
+xpos 619
+ypos 1239
+}
+Dot {
+name Dot31
+xpos 653
+ypos 1347
+}
+set N89bf2800 [stack 0]
+Dot {
+name Dot32
+xpos 509
+ypos 1347
+}
+Dot {
+name Dot34
+xpos 509
+ypos 1496
+}
+push $N85634800
+push $N89bf2800
+Inpaint2 {
+inputs 2
+fillRegion "Matte Alpha"
+detailSource Detail
+name Inpaint8
+xpos 619
+ypos 1417
+}
+Merge2 {
+inputs 2
+operation divide
+name Merge8
+xpos 619
+ypos 1493
+}
+Sharpen {
+channels rgba
+size 0
+name Sharpen1
+xpos 619
+ypos 1732
+}
+Clamp {
+channels rgb
+name Clamp4
+xpos 619
+ypos 1801
+}
+Log2Lin {
+inputs 1+1
+black 0
+white 1023
+gamma {{"1/parent.respill == inf ? 100 : 1/parent.respill == -inf ? 100 : 1/parent.respill"}}
+name Log2Lin1
+xpos 619
+ypos 2367
+}
+Log2Lin {
+inputs 1+1
+black 0
+white 1023
+gamma {{"1/parent.spill2 == inf ? 100 : 1/parent.spill2 == -inf ? 100 : 1/parent.spill2"}}
+invert_mask true
+name Log2Lin2
+xpos 619
+ypos 2459
+disable {{1-parent.bmask}}
+}
+Blur {
+channels rgba
+name Blur1
+xpos 619
+ypos 2613
+}
+Merge2 {
+inputs 2
+operation multiply
+bbox A
+also_merge all
+maskChannelInput -rgba.alpha
+inject true
+invert_mask true
+name Merge2
+xpos 619
+ypos 2697
+}
+Dot {
+name Dot35
+xpos 653
+ypos 3059
+}
+push $N99e2c400
+Merge2 {
+inputs 2
+operation plus
+bbox B
+output {rgba.red rgba.green rgba.blue -rgba.alpha}
+name Merge1
+xpos -367
+ypos 3051
+}
+Grade {
+blackpoint {{parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint} {parent.Mastergrade.blackpoint}}
+whitepoint {{parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint} {parent.Mastergrade.whitepoint}}
+black {{parent.Mastergrade.black} {parent.Mastergrade.black} {parent.Mastergrade.black} {parent.Mastergrade.black}}
+white {{parent.Mastergrade.white} {parent.Mastergrade.white} {parent.Mastergrade.white} {parent.Mastergrade.white}}
+multiply {{parent.Mastergrade.multiply} {parent.Mastergrade.multiply} {parent.Mastergrade.multiply} {parent.Mastergrade.multiply}}
+add {{parent.Mastergrade.add} {parent.Mastergrade.add} {parent.Mastergrade.add} {parent.Mastergrade.add}}
+gamma {{parent.Mastergrade.gamma} {parent.Mastergrade.gamma} {parent.Mastergrade.gamma} {parent.Mastergrade.gamma}}
+reverse true
+black_clamp false
+name Grade3
+xpos -367
+ypos 3114
+disable {{parent.Mastergrade.disable}}
+}
+Dot {
+name Dot16
+xpos -333
+ypos 3317
+}
+set N7423a400 [stack 0]
+Dot {
+name Dot20
+xpos -432
+ypos 3317
+}
+Dot {
+name Dot17
+xpos -432
+ypos 3422
+}
+push $Nd359d000
+push $N7423a400
+Merge2 {
+inputs 2+1
+operation from
+output {rgba.red rgba.green rgba.blue -rgba.alpha}
+invert_mask true
+name Merge5
+label "premult\n"
+xpos -367
+ypos 3413
+disable {{1-premult}}
+}
+Unpremult {
+name Unpremult1
+selected true
+xpos -367
+ypos 3449
+disable {{parent.Merge5.disable}}
+}
+Premult {
+name Premult2
+selected true
+xpos -367
+ypos 3473
+disable {{parent.Merge5.disable}}
+}
+Grade {
+black_clamp false
+name Clampgrade
+xpos -367
+ypos 3606
+}
+BlackOutside {
+name BlackOutside
+xpos -367
+ypos 3765
+}
+Dot {
+name Dot7
+note_font_size 41
+xpos -333
+ypos 3819
+}
+push $N45312000
+Premult {
+name Premult1
+xpos -661
+ypos 3412
+disable {{1-premult}}
+}
+Merge2 {
+inputs 2+1
+operation copy
+bbox B
+Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+output {rgba.red rgba.green rgba.blue -rgba.alpha}
+maskChannelInput -rgba.alpha
+name Merge3
+xpos -661
+ypos 3816
+disable {{parent.checkinput}}
+}
+Switch {
+inputs 2
+which {{parent.preview_mask+parent.preview_fill}}
+name switch_preview_mask
+xpos -661
+ypos 4022
+}
+Switch {
+inputs 2
+which {{parent.preview_fill}}
+name switch_preview_fill
+xpos -661
+ypos 4177
+}
+Output {
+name Output1
+xpos -661
+ypos 4417
+}
+end_group

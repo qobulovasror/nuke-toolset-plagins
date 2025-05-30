@@ -1,0 +1,413 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+Camera2 {
+ inputs 0
+ translate {8.005971909 5.742385387 11.89047527}
+ rotate {-15.60000038 33.80012512 -2.659282472e-06}
+ focal 18
+ name Camera9
+ selected true
+ xpos 43966
+ ypos 2264
+ addUserKnob {20 ALCheckin t "Checkin Management"}
+ addUserKnob {1 computedLpath l cLpath t "Computed lpath"}
+ computedLpath /JOB(kragle)/SCENE()/SHOT()/ASSETDIR(assets)/ASSET(comp)/ASSET(elementscript)/ELEMENTSCRIPT()
+ addUserKnob {1 userLpath l uLpath t "User lpath: this overrides cLpath"}
+}
+BasicMaterial {
+ inputs 0
+ name BasicMaterial3
+ selected true
+ xpos 43655
+ ypos 2331
+}
+Light2 {
+ inputs 0
+ light_type spot
+ color {0.9991000295 1 0.9549999833}
+ intensity 100
+ cone_angle 80
+ cone_penumbra_angle 10
+ cone_falloff 10
+ falloff_type Quadratic
+ translate {-5.000000954 5.478659153 -5.220942497}
+ rotate {-41.35624901 -120 179.6431276}
+ cast_shadows true
+ samples 40
+ sample_width 8
+ depthmap_bias 0.1
+ depthmap_slope_bias 0.2
+ shadow_jitter_scale 16
+ name yellow1
+ selected true
+ xpos 43632
+ ypos 2162
+ addUserKnob {20 ALCheckin t "Checkin Management"}
+ addUserKnob {1 computedLpath l cLpath t "Computed lpath"}
+ computedLpath /JOB(kragle)/SCENE()/SHOT()/ASSETDIR(assets)/ASSET(comp)/ASSET(elementscript)/ELEMENTSCRIPT()
+ addUserKnob {1 userLpath l uLpath t "User lpath: this overrides cLpath"}
+}
+Light2 {
+ inputs 0
+ light_type spot
+ color {0.4900000095 0.6327998638 1}
+ intensity 1200
+ cone_angle 90
+ cone_penumbra_angle 20
+ cone_falloff 60
+ falloff_type Quadratic
+ translate {0 14.74408245 21.2669754}
+ rotate {-35.61599069 0 0}
+ cast_shadows true
+ samples 10
+ sample_width 4
+ depthmap_bias 0.1
+ depthmap_slope_bias 0.2
+ shadow_jitter_scale 4
+ name blue2
+ selected true
+ xpos 43561
+ ypos 2208
+ addUserKnob {20 ALCheckin t "Checkin Management"}
+ addUserKnob {1 computedLpath l cLpath t "Computed lpath"}
+ computedLpath /JOB(kragle)/SCENE()/SHOT()/ASSETDIR(assets)/ASSET(comp)/ASSET(elementscript)/ELEMENTSCRIPT()
+ addUserKnob {1 userLpath l uLpath t "User lpath: this overrides cLpath"}
+}
+Cylinder {
+ inputs 0
+ close_top true
+ close_bottom true
+ translate {15.43567562 2.400000095 -3.69901824}
+ rotate {90 0 30}
+ scaling {0.5 2 0.5}
+ uniform_scale 5
+ name Cylinder8
+ selected true
+ xpos 43982
+ ypos 2020
+}
+Sphere {
+ inputs 0
+ translate {-8.799984932 1.399999976 8.800016403}
+ uniform_scale 1.5
+ name Sphere10
+ selected true
+ xpos 43816
+ ypos 1972
+}
+push 0
+push 0
+Card2 {
+ inputs 0
+ translate {0 31 -26.79999924}
+ scaling {1 3 1}
+ uniform_scale 50
+ control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+ name Card9
+ selected true
+ xpos 43612
+ ypos 2095
+}
+Card2 {
+ inputs 0
+ translate {-24.29999733 30.5 -2.800011158}
+ rotate {0 90 0}
+ scaling {1 3 1}
+ uniform_scale 50
+ control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+ name Card10
+ selected true
+ xpos 43641
+ ypos 2032
+}
+push 0
+Cylinder {
+ inputs 0
+ close_top true
+ close_bottom true
+ translate {5.800000191 6.099999905 -3.799999714}
+ uniform_scale 5
+ name Cylinder9
+ selected true
+ xpos 43921
+ ypos 2033
+}
+Sphere {
+ inputs 0
+ translate {-6.400000095 4.349994183 0}
+ uniform_scale 5
+ name Sphere11
+ selected true
+ xpos 43758
+ ypos 1986
+}
+Card2 {
+ inputs 0
+ rotate {-90 0 0}
+ scaling {1 3 1}
+ uniform_scale 50
+ control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+ name Card11
+ selected true
+ xpos 43592
+ ypos 2059
+}
+Scene {
+ inputs 10
+ name Scene7
+ selected true
+ xpos 43811
+ ypos 2095
+}
+TransformGeo {
+ uniform_scale 0.25
+ name TransformGeo8
+ selected true
+ xpos 43801
+ ypos 2184
+}
+Scene {
+ inputs 3
+ name Scene8
+ selected true
+ xpos 43811
+ ypos 2254
+}
+ApplyMaterial {
+ inputs 2
+ name ApplyMaterial3
+ selected true
+ xpos 43801
+ ypos 2331
+}
+push $cut_paste_input
+Reformat {
+ format "1280 720 0 0 1280 720 1 HD_720"
+ box_width 512
+ box_height 256
+ box_fixed true
+ name Reformat27
+ selected true
+ xpos 43985
+ ypos 2365
+}
+add_layer {p p.red p.green p.blue p.alpha}
+ScanlineRender {
+ inputs 3
+ antialiasing medium
+ motion_vectors_type distance
+ output_shader_vectors true
+ P_channel p
+ name ScanlineRender13
+ selected true
+ xpos 43801
+ ypos 2382
+}
+Shuffle {
+ in p
+ in2 rgba
+ alpha alpha2
+ name Shuffle35
+ label "\[value in]"
+ selected true
+ xpos 43801
+ ypos 2436
+}
+Dot {
+ name Dot82
+ selected true
+ xpos 43835
+ ypos 2594
+}
+set N187c4800 [stack 0]
+Expression {
+ temp_name0 dist
+ temp_expr0 "sqrt( (r-center.r)*(r-center.r)+(g-center.g)*(g-center.g)+(b-center.b)*(b-center.b))\n"
+ expr3 sin(dist*ringScale)*a
+ name Expression60
+ label P_matte_rings
+ selected true
+ xpos 43858
+ ypos 2745
+ addUserKnob {20 User}
+ addUserKnob {18 center}
+ center {-0.6069588661 6.376772177e-08 1.458835363}
+ addUserKnob {6 center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 ringScale R 0 100}
+ ringScale 49
+}
+push $N187c4800
+Add {
+ channels rgb
+ value {0 0 0 0}
+ name Add2
+ label TRANSLATE
+ selected true
+ xpos 43622
+ ypos 2585
+}
+Multiply {
+ channels rgb
+ value {1 1 1 1}
+ name Multiply4
+ label SCALE
+ selected true
+ xpos 43622
+ ypos 2651
+}
+Expression {
+ expr0 "((1- sqrt(r*r+g*g+b*b)*(1-amplitude))*falloff)*a"
+ expr1 "((1- sqrt(r*r+g*g+b*b)*(1-amplitude))*falloff)*a"
+ expr2 "((1- sqrt(r*r+g*g+b*b)*(1-amplitude))*falloff)*a"
+ expr3 "((1- sqrt(r*r+g*g+b*b)*(1-amplitude))*falloff)*a"
+ name Expression62
+ label "distance from the origin"
+ selected true
+ xpos 43622
+ ypos 2742
+ addUserKnob {20 User}
+ addUserKnob {7 amplitude}
+ amplitude 0.54
+ addUserKnob {7 falloff R 0 10}
+ falloff 3.05
+}
+push $N187c4800
+Dot {
+ name Dot83
+ selected true
+ xpos 44495
+ ypos 2594
+}
+set N131d6000 [stack 0]
+Expression {
+ temp_name0 shape
+ temp_expr0 "clamp( sqrt( pow2(red) + pow2(green) + pow2(blue) ) )"
+ expr3 "( \[value parent.invert_matte] ? shape : 1 - shape ) * alpha"
+ name Expression64
+ label sphere
+ selected true
+ xpos 44352
+ ypos 2669
+ addUserKnob {20 User}
+ addUserKnob {3 type}
+ addUserKnob {1 sphere}
+ sphere "clamp( sqrt( pow2(red) + pow2(green) + pow2(blue) ) )"
+}
+push $N131d6000
+Expression {
+ temp_name0 newR
+ temp_expr0 "clamp( 1-(1-abs(red)) * (1/ clamp(\[value parent.cube3d_falloff.x],0.00001,1) ) )"
+ temp_name1 newG
+ temp_expr1 "clamp( 1-(1-abs(green)) * (1/ clamp(\[value parent.cube3d_falloff.y],0.00001,1) ) )"
+ temp_name2 newB
+ temp_expr2 "clamp( 1-(1-abs(blue)) * (1/ clamp(\[value parent.cube3d_falloff.z],0.00001,1) ) )"
+ expr3 "( \[value parent.invert_matte] ? clamp(max(abs(newR),abs(newG),abs(newB))) : 1 - clamp(max(abs(newR),abs(newG),abs(newB))) ) * alpha"
+ name Expression65
+ label cube
+ selected true
+ xpos 44461
+ ypos 2670
+}
+push $N131d6000
+Expression {
+ temp_name0 circle
+ temp_expr0 "sqrt( pow2( red ) + pow2( blue ) )"
+ temp_name1 height
+ temp_expr1 "abs( green )"
+ expr3 "( \[value parent.invert_matte] ? clamp( max( circle , height ) ) : 1 - clamp( max( circle , height ) ) ) * alpha"
+ name Expression66
+ label cylinder
+ selected true
+ xpos 44581
+ ypos 2670
+}
+push $N187c4800
+Expression {
+ temp_name0 dist
+ temp_expr0 "sqrt( (r-center.r)*(r-center.r)+(g-center.g)*(g-center.g)+(b-center.b)*(b-center.b))\n"
+ expr3 ((1-dist*(1-amplitude))*falloff)*a
+ name Expression63
+ label mask3D
+ selected true
+ xpos 43727
+ ypos 2746
+ addUserKnob {20 User}
+ addUserKnob {18 center}
+ center {-0.6069588661 6.376772177e-08 1.458835363}
+ addUserKnob {6 center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {7 amplitude}
+ amplitude 0.655
+ addUserKnob {7 falloff R 0 10}
+ falloff 3.6
+}
+push $N187c4800
+Expression {
+ temp_name0 dist
+ temp_expr0 "sqrt( (r-center.r)*(r-center.r)+(g-center.g)*(g-center.g)+(b-center.b)*(b-center.b))\n"
+ expr3 "sin( atan(r-center.r, b-center.b) * rayScale ) * a"
+ name Expression61
+ label P_matte_radialRays
+ selected true
+ xpos 43987
+ ypos 2751
+ addUserKnob {20 User}
+ addUserKnob {18 center}
+ center {1.11568737 1.351912999e-07 3.092816353}
+ addUserKnob {6 center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 rayScale R 0 100}
+ rayScale 46.5
+}
+push $N131d6000
+Expression {
+ temp_name0 gfo
+ temp_expr0 "alpha * (1/ clamp(\[value parent.uniform_falloff],0.00001,1) )"
+ expr3 "\[value type] == 0 ? ( gfo > 0 ? 1 : 0 ) : \[value type] == 1 ? gfo : \[value type] == 2 ? smoothstep( 0 , 1 , gfo ) : \[value type] == 3 ? clamp( pow2 ( gfo ) ) : \[value type] == 4 ? clamp( gfo ** 3 ) : pow( 1 - pow( 1 - gfo , \[value parent.exp_in] ) , \[value parent.exp_out] )"
+ name Expression67
+ label falloff
+ selected true
+ xpos 44708
+ ypos 2678
+ addUserKnob {20 User}
+ addUserKnob {3 type}
+ type {{parent.falloff_type}}
+}
+StickyNote {
+ inputs 0
+ name StickyNote18
+ label "<b>https://www.nukepedia.com/written-tutorials/expressions-101        ."
+ note_font_size 50
+ selected true
+ xpos 44263
+ ypos 2092
+}

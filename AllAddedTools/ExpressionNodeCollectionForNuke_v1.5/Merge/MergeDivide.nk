@@ -1,0 +1,16 @@
+set cut_paste_input [stack 0]
+version 11.0 v1
+push $cut_paste_input
+MergeExpression {
+ expr0 "Ar == 0 ? Br : Br/Ar"
+ expr1 "Ag == 0 ? Bg : Bg/Ag"
+ expr2 "Ab == 0 ? Bb : Bb/Ab"
+ expr3 "Aa == 0 ? Ba : Ba/Aa"
+ name MergeDivide
+ tile_color 0x4b5ec600
+ label "( B / A )\nby Tony Lyons"
+ note_font_color 0xffffffff
+ selected true
+ xpos 197
+ ypos -47
+}

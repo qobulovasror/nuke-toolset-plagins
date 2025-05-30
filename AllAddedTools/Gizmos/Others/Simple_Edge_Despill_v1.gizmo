@@ -1,0 +1,125 @@
+#! C:/Program Files/Nuke15.0v2/nuke-15.0.2.dll -nx
+version 15.0 v2
+Gizmo {
+ inputs 3
+ tile_color 0x5e00ff
+ addUserKnob {20 Settings}
+ addUserKnob {6 viewedgematte l "View Edge Matte" +STARTLINE}
+ viewedgematte true
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 Color l "Adjust Color" T "Match to the color of the edge."}
+ addUserKnob {41 white l gain T Grade5.white}
+ addUserKnob {41 multiply T Grade5.multiply}
+ addUserKnob {41 gamma T Grade5.gamma}
+ addUserKnob {26 ""}
+ addUserKnob {26 Edge l "Edge Settings" T "Adjust the thickness and softness of the edges."}
+ addUserKnob {41 size l "Outer Edge Size" T FilterErode9.size}
+ addUserKnob {41 size_1 l "Outer Edge Blur" T Blur18.size}
+ addUserKnob {41 size_3 l "Inner Edge Size" T FilterErode8.size}
+ addUserKnob {41 size_2 l "Inner Edge Blur" T Blur17.size}
+ addUserKnob {26 Mix l Opacity}
+ addUserKnob {41 mix T Grade5.mix}
+ addUserKnob {26 ""}
+ addUserKnob {26 text l "" +STARTLINE T "Simple_Edge_Despill by Manish Rohith | Axelloid Studios Inc."}
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos 378
+  ypos -277
+  number 2
+ }
+ Blur {
+  size 30
+  name Blur16
+  xpos 378
+  ypos -209
+ }
+ Input {
+  inputs 0
+  name Final_Alpha
+  xpos 72
+  ypos -321
+  number 1
+ }
+set N4af9b000 [stack 0]
+ FilterErode {
+  size 0
+  name FilterErode8
+  xpos 72
+  ypos -204
+ }
+ Blur {
+  name Blur17
+  xpos 72
+  ypos -117
+ }
+push $N4af9b000
+ FilterErode {
+  size 0
+  name FilterErode9
+  xpos 210
+  ypos -327
+ }
+ Blur {
+  name Blur18
+  xpos 210
+  ypos -234
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge17
+  xpos 210
+  ypos -111
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge18
+  selected true
+  xpos 378
+  ypos -111
+ }
+set N4afe8800 [stack 0]
+ Dot {
+  name Dot1
+  xpos 412
+  ypos -31
+ }
+push $N4afe8800
+ Input {
+  inputs 0
+  name Plate
+  xpos 708
+  ypos -181
+ }
+ Grade {
+  inputs 1+1
+  name Grade5
+  xpos 708
+  ypos -111
+ }
+ Switch {
+  inputs 2
+  which {{"\[value viewedgematte]\n"}}
+  name Switch1
+  xpos 708
+  ypos -34
+ }
+set N4b148c00 [stack 0]
+ Viewer {
+  frame_range 1-189
+  monitorOutNDISenderName "NukeX - KEYING - Viewer1"
+  monitorOutOutputTransform rec709
+  name Viewer1
+  xpos 188
+  ypos 188
+ }
+push $N4b148c00
+ Output {
+  name Output1
+  xpos 708
+  ypos 44
+ }
+end_group

@@ -1,0 +1,137 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+Read {
+ inputs 0
+ file_type exr
+ file "\[python \{Expression_path\} ]/img/helicopter.exr"
+ format "1934 1088 0 0 1934 1088 1 "
+ origset true
+ auto_alpha true
+ name Read1
+ selected true
+ xpos 18081
+ ypos 709
+}
+Dot {
+ name Dot79
+ selected true
+ xpos 18115
+ ypos 836
+}
+set N187d1c00 [stack 0]
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle30
+ tile_color 0xffffffff
+ selected true
+ xpos 18081
+ ypos 1030
+}
+Dot {
+ name Dot77
+ selected true
+ xpos 18114
+ ypos 1217
+}
+push $N187d1c00
+Dot {
+ name Dot78
+ selected true
+ xpos 18243
+ ypos 836
+}
+add_layer {N_world N_world.NX N_world.NY N_world.NZ}
+Shuffle {
+ in N_world
+ name Shuffle31
+ label N
+ selected true
+ xpos 18210
+ ypos 939
+}
+Expression {
+ temp_name0 h
+ temp_expr0 -0.001
+ expr0 r+h
+ expr1 g+h
+ expr2 b+h
+ name Expression56
+ selected true
+ xpos 18210
+ ypos 997
+}
+Expression {
+ temp_name0 f1
+ temp_expr0 atan2(b,r)
+ temp_name1 f2
+ temp_expr1 asin(g)
+ expr0 "b > 0 ? f1 : (2*pi) + f1"
+ expr1 f2
+ expr2 0
+ name normal_to_radian1
+ selected true
+ xpos 18210
+ ypos 1044
+}
+Expression {
+ expr0 r/(2*pi)
+ expr1 (g+(pi/2))/pi
+ expr2 0
+ name radian_to_UV1
+ selected true
+ xpos 18210
+ ypos 1086
+}
+Read {
+ inputs 0
+ file_type hdr
+ file "\[python \{Expression_path\} ]/img/HDR.hdr"
+ format "2434 1024 0 0 2434 1024 1 "
+ origset true
+ auto_alpha true
+ name Read31
+ selected true
+ xpos 18427
+ ypos 774
+}
+Tile {
+ columns 3
+ name Tile1
+ selected true
+ xpos 18427
+ ypos 918
+}
+Transform {
+ translate {{"((normalize*(center.x*2)) - center.x) % (center.x*2)"} {curve}}
+ scale {-3 1}
+ center {{input.width/2} {input.height/2}}
+ name Transform7
+ selected true
+ xpos 18427
+ ypos 977
+ addUserKnob {20 User}
+ addUserKnob {7 iRotation R -180 180}
+ iRotation 180
+ addUserKnob {7 normalize l Normalize}
+ normalize {{"(iRotation +180)/360"}}
+ addUserKnob {41 center_1 l center T Transform7.center}
+ addUserKnob {41 translate_1 l translate T Transform7.translate}
+}
+STMap {
+ inputs 2
+ uv rgb
+ name STMap17
+ selected true
+ xpos 18427
+ ypos 1082
+}
+Merge2 {
+ inputs 2
+ operation multiply
+ name Merge16
+ selected true
+ xpos 18427
+ ypos 1215
+}

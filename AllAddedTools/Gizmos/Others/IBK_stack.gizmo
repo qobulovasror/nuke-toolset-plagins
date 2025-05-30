@@ -1,0 +1,169 @@
+#! C:/Program Files/Nuke12.2v5/nuke-12.2.5.dll -nx
+version 12.2 v5
+Gizmo {
+ inputs 3
+ tile_color 0x9900ff
+ addUserKnob {20 ibkStack l IBK_Stack}
+ addUserKnob {26 screen_type l "screen type" -STARTLINE T " "}
+ addUserKnob {22 blue l "<font color = #33A1DE>blue" -STARTLINE T "g = nuke.thisNode()\ncolorSwitch = g.node('ColorSwitch')\ng.knob('blue').setLabel('<font color = #33A1DE>blue')\ng.knob('green').setLabel('<font color = \"grey\">green')\ng.begin()\ncolorSwitch.knob('which').setValue(1)\nfor i in nuke.allNodes(recurseGroups=True):\n    if i.Class() == \"IBKColourV3\": \n    \tif not i.name() in \['IBKColourV3_FIRST', 'IBKColourV3_Blue']:\n    \t\ti.knob('screen_type').setValue('blue')\ng.end()"}
+ addUserKnob {22 green l "<font color = \"grey\">green" -STARTLINE T "g = nuke.thisNode()\ncolorSwitch = g.node('ColorSwitch')\ng.knob('green').setLabel('<font color = \"green\">green')\ng.knob('blue').setLabel('<font color = \"grey\">blue')\ng.begin()\ncolorSwitch.knob('which').setValue(0)\nfor i in nuke.allNodes(recurseGroups=True):\n    if i.Class() == \"IBKColourV3\": \n    \tif not i.name() in \['IBKColourV3_FIRST', 'IBKColourV3_Blue']:\n    \t\ti.knob('screen_type').setValue('green')\ng.end()"}
+ addUserKnob {6 color_rgb_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 color_rgb_1_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 size R 0 100}
+ size 1
+ addUserKnob {18 darks}
+ darks {0 0 0}
+ addUserKnob {6 darks_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 lights}
+ lights {1 1 1}
+ addUserKnob {6 lights_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {7 erode R 0 5}
+ addUserKnob {26 ""}
+ addUserKnob {3 stackMult l "stack multiplier"}
+ addUserKnob {22 update l Update -STARTLINE T "g = nuke.thisNode()\n\nmp = g.knob('stackMult').getValue()\nmp = int(mp)\n\ng.begin()\n\nstackstart = g.node('stackstart')\nstackend = g.node('stackend')\nfirstIBK = g.node('IBKColourV3_FIRST')\ncolorSwitch = g.node('ColorSwitch')\nparent = stackstart\npatchMult = 1\n\nse = 500\nwhile not stackend.input(0) == stackstart and se>0:\n\tip = stackend.input(0)\n\tnuke.delete(ip)\n\tse = se-1\n\nfor x in range(1,mp+1):\n\n\tibk_colour = nuke.createNode('IBKColourV3', inpanel=False)\n\n\tibk_colour.knob('multi').setValue(patchMult)\n\tibk_colour.knob('screen_type').setValue(int(colorSwitch.knob('which').getValue()))\n\tibk_colour.knob('Size').setExpression('parent.IBKColourV3_FIRST.Size')\n\tibk_colour.knob('off').setExpression('parent.IBKColourV3_FIRST.off')\n\tibk_colour.knob('mult').setExpression('parent.IBKColourV3_FIRST.mult')\n\n\tibk_colour.setInput(0, parent)\n\tparent = ibk_colour\n\tpatchMult = min(patchMult*2,1000)\n\nstackend.setInput(0,parent)\n\ng.end()\n"}
+ addUserKnob {26 ""}
+ addUserKnob {26 credit l "" +STARTLINE T "Pascal Schober, Lukas Loeffler v2.2"}
+}
+ Input {
+  inputs 0
+  name stencil
+  xpos -150
+  ypos -254
+  number 2
+ }
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle2
+  label "<font size = \"3\"> \[value in]>\[value out]"
+  xpos -150
+  ypos -230
+ }
+ Clamp {
+  maximum 0
+  MaxClampTo_enable true
+  name Clamp2
+  xpos -150
+  ypos -155
+ }
+ Input {
+  inputs 0
+  name plate
+  xpos -40
+  ypos -814
+ }
+ Dot {
+  name Dot2
+  xpos -6
+  ypos -671
+ }
+set N44684400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 104
+  ypos -671
+ }
+ Dot {
+  name Dot5
+  xpos 104
+  ypos -146
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos -370
+  ypos -499
+  number 1
+ }
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle1
+  label "<font size = \"3\"> \[value in]>\[value out]"
+  xpos -370
+  ypos -475
+ }
+ Clamp {
+  maximum 0
+  MaxClampTo_enable true
+  name Clamp1
+  xpos -370
+  ypos -400
+ }
+ Dot {
+  name Dot4
+  xpos -336
+  ypos -356
+ }
+push $N44684400
+ Dot {
+  name Dot3
+  xpos -116
+  ypos -671
+ }
+ IBKColourV3 {
+  name IBKColourV3_Blue
+  xpos -150
+  ypos -604
+  Size {{parent.size}}
+  off {{parent.darks} {parent.darks} {parent.darks}}
+  mult {{parent.lights} {parent.lights} {parent.lights}}
+  erode {{parent.erode}}
+ }
+ Dot {
+  name Dot6
+  xpos -116
+  ypos -496
+ }
+push $N44684400
+ IBKColourV3 {
+  name IBKColourV3_FIRST
+  xpos -40
+  ypos -604
+  screen_type green
+  Size {{parent.size}}
+  off {{parent.darks} {parent.darks} {parent.darks}}
+  mult {{parent.lights} {parent.lights} {parent.lights}}
+  erode {{parent.erode}}
+ }
+ Switch {
+  inputs 2
+  which 1
+  name ColorSwitch
+  autolabel "nuke.thisNode().name() + \"\\n\" + 'Input : ' + str(nuke.thisNode()\['which'].value()).split('.')\[0] + ('\\n' + nuke.thisNode()\['label'].value() if nuke.thisNode()\['label'].value() else '')"
+  xpos -40
+  ypos -505
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  bbox B
+  name Merge1
+  xpos -40
+  ypos -359
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -40
+  ypos -155
+ }
+ NoOp {
+  name stackstart
+  xpos -40
+  ypos 201
+ }
+ NoOp {
+  name stackend
+  xpos -40
+  ypos 726
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 901
+ }
+end_group

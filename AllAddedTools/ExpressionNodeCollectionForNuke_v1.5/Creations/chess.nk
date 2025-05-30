@@ -1,0 +1,15 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Expression {
+ temp_name0 xx
+ temp_name1 yy
+ expr0 "sin(cx*PI*s) * sin(cy*PI*s)"
+ name Expression5
+ selected true
+ xpos 3505
+ ypos 228
+ addUserKnob {20 User}
+ addUserKnob {7 s R 0 1000}
+ s 5
+}

@@ -1,0 +1,243 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+CheckerBoard2 {
+ inputs 0
+ name CheckerBoard15
+ selected true
+ xpos 19195
+ ypos 907
+}
+Read {
+ inputs 0
+ file_type exr
+ file "\[python \{Expression_path\} ]/img/helicopter.exr"
+ format "1934 1088 0 0 1934 1088 1 "
+ origset true
+ version 3
+ auto_alpha true
+ name Read2
+ selected true
+ xpos 18888
+ ypos 732
+}
+Dot {
+ name Dot38
+ label "RENDER with POSITION PASS"
+ note_font_size 30
+ selected true
+ xpos 18922
+ ypos 874
+}
+add_layer {P P.NX P.NY P.NZ P.red P.green P.blue P.alpha}
+Shuffle {
+ in P
+ name Shuffle13
+ label "\[value in]"
+ selected true
+ xpos 18888
+ ypos 1033
+}
+Group {
+ inputs 2
+ name pTexture_FS1
+ help http://intranet/depts/Shows:Gravity:Compositing:Gravity_Beta_tools#pTexture
+ note_font "Bitstream Vera Sans"
+ selected true
+ xpos 19195
+ ypos 1039
+ mapsize {0.15 0.15}
+ addUserKnob {20 User}
+ addUserKnob {4 view l View M {Textured UVs}}
+ addUserKnob {4 ef l "Edge Filtering" M {None "2x Supersampling" "" ""}}
+ addUserKnob {41 filter l "ST Filter" T STMap1.filter}
+ addUserKnob {26 ""}
+ addUserKnob {18 pos l Position t "Select the colour that corresponds to\nthe position you want."}
+ pos {93.5625 138.5 -261.25}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {13 rot l Rotation}
+ addUserKnob {13 rad l Size}
+ rad {1 1 1}
+ addUserKnob {7 size l Scale R 0 10}
+ size 830
+ addUserKnob {7 dslize l "Depth Slize"}
+ dslize 1
+ addUserKnob {26 ""}
+ addUserKnob {26 abt l About -STARTLINE T "pMatte v0.75 - theo@euqahuba.com 2011"}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Position
+  xpos 35
+  ypos 432
+ }
+ Expression {
+  expr0 r-parent.pos.r
+  expr1 g-parent.pos.g
+  expr2 b-parent.pos.b
+  name Expression1
+  xpos 35
+  ypos 458
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(yrot))} 0 {-sin(radians(yrot))}}
+      {0 1 0}
+      {{sin(radians(yrot))} 0 {cos(radians(yrot))}}
+    }
+  name ColorMatrix14
+  label yrot
+  xpos 35
+  ypos 486
+  addUserKnob {20 "" l User}
+  addUserKnob {7 yrot l "y rotation" R -90 90}
+  yrot {{parent.rot.y}}
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(xrot))} {sin(radians(xrot))}}
+      {0 {-sin(radians(xrot))} {cos(radians(xrot))}}
+    }
+  name ColorMatrix15
+  label "xrot\n"
+  xpos 35
+  ypos 528
+  addUserKnob {20 "" l User}
+  addUserKnob {7 xrot l "x rotation" R -90 90}
+  xrot {{parent.rot.x}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(zrot))} {sin(radians(zrot))} 0}
+      {{-sin(radians(zrot))} {cos(radians(zrot))} 0}
+      {0 0 1}
+    }
+  name ColorMatrix13
+  label "zrot\n"
+  xpos 35
+  ypos 570
+  addUserKnob {20 "" l User}
+  addUserKnob {7 zrot l "z rotation" R -90 90}
+  zrot {{parent.rot.z}}
+ }
+ Expression {
+  expr0 r+parent.pos.r
+  expr1 g+parent.pos.g
+  expr2 b+parent.pos.b
+  name Expression2
+  xpos 35
+  ypos 608
+ }
+ Reformat {
+  type scale
+  scale 2
+  name Reformat1
+  xpos 35
+  ypos 634
+  disable {{parent.ef==1?0:1}}
+ }
+ Expression {
+  temp_name0 u
+  temp_expr0 (((r-pos.r)/(size*rad.x))+1)/2
+  temp_name1 v
+  temp_expr1 (((g-pos.g)/(size*rad.y))+1)/2
+  temp_name2 matte
+  temp_expr2 ceil(min(1-sqrt(pow((r-pos.r)/(size*rad.x),2)),1-sqrt(pow((g-pos.g)/(size*rad.y),2)),1-sqrt(pow((b-pos.b)/(size*dslize),2))))>0?1:0
+  expr0 u*matte
+  expr1 v*matte
+  expr2 0
+  channel3 alpha
+  expr3 matte
+  name Expression3
+  xpos 35
+  ypos 660
+  addUserKnob {20 User}
+ }
+set Ne606c00 [stack 0]
+ Reformat {
+  type scale
+  scale 0.5
+  name Reformat3
+  xpos 135
+  ypos 660
+  disable {{parent.ef==1?0:1}}
+ }
+ Dot {
+  name Dot2
+  xpos 233
+  ypos 664
+ }
+ Dot {
+  name Dot3
+  xpos 233
+  ypos 762
+ }
+push $Ne606c00
+ Input {
+  inputs 0
+  name Texture
+  xpos -81
+  ypos 589
+  number 1
+ }
+ Transform {
+  center {128 128}
+  name Transform1
+  xpos -81
+  ypos 615
+ }
+ Crop {
+  box {{curve} {curve} {width} {height}}
+  name Crop1
+  xpos -81
+  ypos 641
+ }
+ Dot {
+  name Dot1
+  xpos -47
+  ypos 692
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  blur_scale 0
+  maskChannel rgba.alpha
+  name STMap1
+  xpos 35
+  ypos 684
+ }
+ Reformat {
+  type scale
+  scale 0.5
+  name Reformat2
+  xpos 35
+  ypos 720
+  disable {{parent.ef==1?0:1}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.view i}}
+  patterns {
+   {i0 ""}
+   {i1 ""}
+  }
+  name Switch1
+  xpos 35
+  ypos 758
+ }
+ Output {
+  name Output1
+  xpos 35
+  ypos 794
+ }
+push $Ne606c00
+ Viewer {
+  frame_range 1-100
+  monitorOutNDISenderName "NukeX - untitled - Viewer1"
+  name Viewer1
+  xpos 227
+  ypos 529
+  hide_input true
+ }
+end_group

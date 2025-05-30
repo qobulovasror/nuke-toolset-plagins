@@ -1,0 +1,18 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Expression {
+ expr0 "limit * (1 - exp(-r/limit))"
+ expr1 "limit * (1 - exp(-g/limit))"
+ expr2 "limit * (1 - exp(-b/limit))"
+ channel3 alpha
+ expr3 "limit * (1 - exp(-a/limit))"
+ name Expression1
+ label "SOFT ROLL OFF\nfrom Kenn Hedin Kalvik"
+ note_font Verdana
+ selected true
+ xpos -13
+ ypos -136
+ addUserKnob {20 User}
+ addUserKnob {7 limit R 0 20}
+}

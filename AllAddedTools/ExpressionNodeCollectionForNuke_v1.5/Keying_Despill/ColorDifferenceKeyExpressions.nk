@@ -1,0 +1,1237 @@
+set cut_paste_input [stack 0]
+version 11.0 v1
+push $cut_paste_input
+Dot {
+ name Dot26
+ selected true
+ xpos -610
+ ypos 257
+}
+set N32a25940 [stack 0]
+Dot {
+ name Dot25
+ selected true
+ xpos -481
+ ypos 257
+}
+set N328bf720 [stack 0]
+Dot {
+ name Dot24
+ selected true
+ xpos -337
+ ypos 257
+}
+set N312a2140 [stack 0]
+Dot {
+ name Dot23
+ selected true
+ xpos -224
+ ypos 258
+}
+set N312aaf60 [stack 0]
+Dot {
+ name Dot22
+ selected true
+ xpos -105
+ ypos 258
+}
+set N310a57a0 [stack 0]
+Dot {
+ name Dot21
+ selected true
+ xpos 4
+ ypos 258
+}
+set N32a20380 [stack 0]
+Dot {
+ name Dot20
+ selected true
+ xpos 113
+ ypos 258
+}
+set N312b6160 [stack 0]
+Dot {
+ name Dot19
+ selected true
+ xpos 209
+ ypos 258
+}
+set N32a21b90 [stack 0]
+Dot {
+ name Dot18
+ selected true
+ xpos 316
+ ypos 258
+}
+set N310bf940 [stack 0]
+Dot {
+ name Dot17
+ selected true
+ xpos 424
+ ypos 258
+}
+set N312b43c0 [stack 0]
+Dot {
+ name Dot16
+ selected true
+ xpos 574
+ ypos 258
+}
+set N328d6cf0 [stack 0]
+Dot {
+ name Dot15
+ selected true
+ xpos 697
+ ypos 258
+}
+set N328bbeb0 [stack 0]
+Dot {
+ name Dot14
+ selected true
+ xpos 823
+ ypos 258
+}
+set N312ae1e0 [stack 0]
+Dot {
+ name Dot13
+ selected true
+ xpos 954
+ ypos 258
+}
+set N310de3f0 [stack 0]
+Dot {
+ name Dot12
+ selected true
+ xpos 1053
+ ypos 258
+}
+set N32cc4c20 [stack 0]
+Dot {
+ name Dot11
+ selected true
+ xpos 1147
+ ypos 258
+}
+set N312b2800 [stack 0]
+Dot {
+ name Dot1
+ selected true
+ xpos 1261
+ ypos 258
+}
+set N312b17f0 [stack 0]
+Dot {
+ name Dot3
+ selected true
+ xpos 1492
+ ypos 258
+}
+set N315c3710 [stack 0]
+Dot {
+ name Dot4
+ selected true
+ xpos 1576
+ ypos 258
+}
+set N32d02760 [stack 0]
+Dot {
+ name Dot7
+ selected true
+ xpos 1773
+ ypos 258
+}
+set N32d04c80 [stack 0]
+Dot {
+ name Dot6
+ selected true
+ xpos 1851
+ ypos 258
+}
+set N32d07010 [stack 0]
+Dot {
+ name Dot9
+ selected true
+ xpos 2096
+ ypos 258
+}
+set N32d09220 [stack 0]
+Dot {
+ name Dot10
+ selected true
+ xpos 2191
+ ypos 258
+}
+Dot {
+ name Dot8
+ selected true
+ xpos 2191
+ ypos 388
+}
+push $N32d09220
+Expression {
+ temp_name0 f
+ temp_expr0 2
+ expr2 "b > (r+g)/f ? (r+g)/f  : b"
+ name DespillBlue
+ tile_color 0x4fffff
+ selected true
+ xpos 2067
+ ypos 323
+}
+Merge2 {
+ inputs 2
+ operation difference
+ name Merge3
+ selected true
+ xpos 2067
+ ypos 389
+}
+Shuffle {
+ red blue
+ green blue
+ alpha blue
+ name Shuffle3
+ tile_color 0x3d3f8e00
+ selected true
+ xpos 2067
+ ypos 445
+}
+push $N32d07010
+Dot {
+ name Dot5
+ selected true
+ xpos 1851
+ ypos 383
+}
+push $N32d04c80
+Expression {
+ temp_name0 f
+ temp_expr0 2
+ expr1 "g > (r+b)/f ? (b+r)/f  : g"
+ name DespillGreen
+ tile_color 0xff00ff
+ selected true
+ xpos 1744
+ ypos 320
+}
+Merge2 {
+ inputs 2
+ operation difference
+ name Merge2
+ selected true
+ xpos 1744
+ ypos 384
+}
+Shuffle {
+ red green
+ blue green
+ alpha green
+ name Shuffle2
+ tile_color 0x3f633800
+ selected true
+ xpos 1744
+ ypos 426
+}
+push $N32d02760
+Dot {
+ name Dot2
+ selected true
+ xpos 1576
+ ypos 368
+}
+push $N315c3710
+Expression {
+ temp_name0 f
+ temp_expr0 2
+ expr0 "r > (b+g)/f ? (b+g)/f  : r"
+ name DespillRed
+ tile_color 0xff0000ff
+ selected true
+ xpos 1463
+ ypos 324
+}
+Merge2 {
+ inputs 2
+ operation difference
+ name Merge1
+ selected true
+ xpos 1463
+ ypos 369
+}
+Shuffle {
+ green red
+ blue red
+ alpha red
+ name Shuffle1
+ tile_color 0x93000000
+ selected true
+ xpos 1463
+ ypos 422
+}
+push $N312b17f0
+Expression {
+ channel0 rgba
+ expr0 sqrt(r*r+g*g+b*b)
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression2
+ label distance
+ selected true
+ xpos 1228
+ ypos 307
+}
+push $N312b2800
+Expression {
+ channel0 rgba
+ expr0 r*g*b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression1
+ label R*B*G
+ selected true
+ xpos 1114
+ ypos 307
+}
+push $N32cc4c20
+Expression {
+ channel0 rgba
+ expr0 b-r-g
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression17
+ label B-R-G
+ selected true
+ xpos 1020
+ ypos 307
+}
+push $N310de3f0
+Expression {
+ channel0 rgba
+ expr0 g-r-b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression15
+ label G-R-B
+ selected true
+ xpos 921
+ ypos 307
+}
+push $N312ae1e0
+Expression {
+ channel0 rgba
+ expr0 r-g-b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression13
+ label R-G-B
+ selected true
+ xpos 790
+ ypos 307
+}
+push $N328bbeb0
+Expression {
+ channel0 rgba
+ expr0 (b-r)+(b-g)
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression21
+ label (B-R)+(B-G)
+ selected true
+ xpos 664
+ ypos 307
+}
+push $N328d6cf0
+Expression {
+ channel0 rgba
+ expr0 (g-r)+(g-b)
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression20
+ label (G-R)+(G-B)
+ selected true
+ xpos 541
+ ypos 307
+}
+push $N312b43c0
+Expression {
+ channel0 rgba
+ expr0 (r-g)+(r-b)
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression19
+ label (R-G)+(R-B)
+ selected true
+ xpos 391
+ ypos 307
+}
+push $N310bf940
+Expression {
+ channel0 rgba
+ expr0 (g+b)-r
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression6
+ label "(G+B) - R"
+ selected true
+ xpos 283
+ ypos 307
+}
+push $N32a21b90
+Expression {
+ channel0 rgba
+ expr0 (r+b)-g
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression5
+ label "(R+B) - G"
+ selected true
+ xpos 176
+ ypos 307
+}
+push $N312b6160
+Expression {
+ channel0 rgba
+ expr0 (r+g)-b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression4
+ label "(R+G) - B"
+ selected true
+ xpos 80
+ ypos 307
+}
+push $N32a20380
+Expression {
+ channel0 rgba
+ expr0 g-b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression12
+ label G-B
+ selected true
+ xpos -29
+ ypos 307
+}
+push $N310a57a0
+Expression {
+ channel0 rgba
+ expr0 b-g
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression11
+ label B-G
+ selected true
+ xpos -138
+ ypos 307
+}
+push $N312aaf60
+Expression {
+ channel0 rgba
+ expr0 r-b
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression10
+ label R-B
+ selected true
+ xpos -257
+ ypos 307
+}
+push $N312a2140
+Expression {
+ channel0 rgba
+ expr0 b-r
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression9
+ label B-R
+ selected true
+ xpos -370
+ ypos 307
+}
+push $N328bf720
+Expression {
+ channel0 rgba
+ expr0 g-r
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression8
+ label G-R
+ selected true
+ xpos -514
+ ypos 307
+}
+push $N32a25940
+Expression {
+ channel0 rgba
+ expr0 r-g
+ channel1 none
+ channel2 none
+ channel3 none
+ name Expression7
+ label R-G
+ selected true
+ xpos -643
+ ypos 307
+}
+Group {
+ inputs 0
+ name ColorDifferenceKey
+ autolabel "nuke.thisNode().name() + \"\\n\" + '(' + nuke.thisNode()\['operation'].value() + ')' "
+ tile_color 0xffff00ff
+ note_font "Bitstream Vera Sans Bold Bold"
+ selected true
+ xpos -798
+ ypos 248
+ addUserKnob {20 parameters l Parameters}
+ addUserKnob {4 operation M {"Red - Green" "Green - Red" "Blue - Red" "Red - Blue" "Blue - Green" "Green - Blue" "(Red + Green) - Blue" "(Red + Blue) - Green" "(Green + Blue) - Red" (Red-Green)+(Red-Blue) (Green-Red)+(Green-Blue) (Blue-Red)+(Blue-Green) Red-Green-Blue Green-Red-Blue Blue-Red-Green "Red Difference Key" "Green Difference Key" "Blue Difference Key" "" "" "" "" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {4 viewer M {output "red input" "green input" "blue input" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {20 output n 1}
+ addUserKnob {41 blackpoint_3 l blackpoint T Grade1.blackpoint}
+ addUserKnob {41 whitepoint_3 l whitepoint T Grade1.whitepoint}
+ addUserKnob {41 black_3 l lift T Grade1.black}
+ addUserKnob {41 white_3 l gain T Grade1.white}
+ addUserKnob {41 multiply_3 l multiply T Grade1.multiply}
+ addUserKnob {41 add_3 l offset T Grade1.add}
+ addUserKnob {41 gamma_3 l gamma T Grade1.gamma}
+ addUserKnob {26 "" l "  "}
+ addUserKnob {26 message_3 l "" +STARTLINE T "Remember the CLAMP. Some keys can give you negative results"}
+ addUserKnob {41 black_clamp_3 l "black clamp" T Grade1.black_clamp}
+ addUserKnob {41 white_clamp_3 l "white clamp" -STARTLINE T Grade1.white_clamp}
+ addUserKnob {26 ""}
+ addUserKnob {6 invert l "invert output" +STARTLINE}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 Red l red t "Adjust red channel in input"}
+ addUserKnob {26 message l "" +STARTLINE T "Modify the red channel in input"}
+ addUserKnob {41 blackpoint T Grade145.blackpoint}
+ addUserKnob {41 whitepoint T Grade145.whitepoint}
+ addUserKnob {41 black l lift T Grade145.black}
+ addUserKnob {41 white l gain T Grade145.white}
+ addUserKnob {41 multiply T Grade145.multiply}
+ addUserKnob {41 add l offset T Grade145.add}
+ addUserKnob {41 gamma T Grade145.gamma}
+ addUserKnob {41 black_clamp_1 l "black clamp" T Grade145.black_clamp}
+ addUserKnob {41 white_clamp_1 l "white clamp" -STARTLINE T Grade145.white_clamp}
+ addUserKnob {20 green t "Adjust green channel in input"}
+ addUserKnob {26 message_1 l "" +STARTLINE T "Modify the green channel in input"}
+ addUserKnob {41 blackpoint_1 l blackpoint T Grade128.blackpoint}
+ addUserKnob {41 whitepoint_1 l whitepoint T Grade128.whitepoint}
+ addUserKnob {41 black_1 l lift T Grade128.black}
+ addUserKnob {41 white_1 l gain T Grade128.white}
+ addUserKnob {41 multiply_1 l multiply T Grade128.multiply}
+ addUserKnob {41 add_1 l offset T Grade128.add}
+ addUserKnob {41 gamma_1 l gamma T Grade128.gamma}
+ addUserKnob {41 black_clamp l "black clamp" T Grade128.black_clamp}
+ addUserKnob {41 white_clamp l "white clamp" -STARTLINE T Grade128.white_clamp}
+ addUserKnob {20 blue t "Adjust blue channel in input"}
+ addUserKnob {26 message_2 l "" +STARTLINE T "Modify the blue channel in input"}
+ addUserKnob {41 blackpoint_2 l blackpoint T Grade146.blackpoint}
+ addUserKnob {41 whitepoint_2 l whitepoint T Grade146.whitepoint}
+ addUserKnob {41 black_2 l lift T Grade146.black}
+ addUserKnob {41 white_2 l gain T Grade146.white}
+ addUserKnob {41 multiply_2 l multiply T Grade146.multiply}
+ addUserKnob {41 add_2 l offset T Grade146.add}
+ addUserKnob {41 gamma_2 l gamma T Grade146.gamma}
+ addUserKnob {41 black_clamp_2 l "black clamp" T Grade146.black_clamp}
+ addUserKnob {41 white_clamp_2 l "white clamp" -STARTLINE T Grade146.white_clamp}
+ addUserKnob {20 email l @}
+ addUserKnob {26 email_1 l "" +STARTLINE T "<b><font color=\"Yellow\">Color Difference Key v5.1</font></b><br>\n<font size=“1”><i>by Andrea Geremia</i><br>\n<br>\nandrea.geremia89@gmail.com<br>\nwww.andreageremia.it</font>"}
+}
+ Input {
+  inputs 0
+  name src
+  xpos -546
+  ypos -330
+ }
+ Dot {
+  name Dot39
+  xpos -517
+  ypos -228
+ }
+ Grade {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  name Grade145
+  tile_color 0x93000000
+  xpos -546
+  ypos -179
+ }
+set N328def10 [stack 0]
+ Grade {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  name Grade128
+  tile_color 0x3f633800
+  xpos -546
+  ypos -117
+ }
+set N328e5320 [stack 0]
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  name Grade146
+  tile_color 0x3d3f8e00
+  xpos -545
+  ypos -60
+ }
+set N328eba60 [stack 0]
+ Dot {
+  name Dot38
+  xpos -516
+  ypos 28
+ }
+set N32a00480 [stack 0]
+ Dot {
+  name Dot11
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1452
+  ypos 233
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (r+b)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression2
+  label R+B
+  xpos -1481
+  ypos 304
+ }
+push $N32a00480
+ Dot {
+  name Dot1
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1551
+  ypos 230
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (r+g)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression3
+  label R+G
+  xpos -1580
+  ypos 302
+ }
+push $N32a00480
+ Dot {
+  name Dot12
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1352
+  ypos 231
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (g+b)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  label G+B
+  xpos -1381
+  ypos 306
+ }
+push $N328eba60
+ Dot {
+  name Dot34
+  label B
+  note_font_size 30
+  xpos -335
+  ypos 1004
+  hide_input true
+ }
+push $N328e5320
+ Dot {
+  name Dot33
+  label G
+  note_font_size 30
+  xpos -302
+  ypos 1133
+  hide_input true
+ }
+push $N328def10
+ Dot {
+  name Dot32
+  label R
+  note_font_size 30
+  xpos -310
+  ypos 1071
+  hide_input true
+ }
+push $N32a00480
+ Dot {
+  name Dot31
+  xpos 513
+  ypos 28
+  hide_input true
+ }
+set N310f7fb0 [stack 0]
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name Shuffle19
+  tile_color 0x3d3f8e00
+  xpos 484
+  ypos 101
+ }
+ Dot {
+  name Dot35
+  xpos 513
+  ypos 208
+ }
+push $N310f7fb0
+ Dot {
+  name Dot36
+  xpos 623
+  ypos 28
+ }
+set N32b087c0 [stack 0]
+ Dot {
+  name Dot37
+  xpos 889
+  ypos 28
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle14
+  tile_color 0x93000000
+  xpos 860
+  ypos 107
+ }
+push $N32b087c0
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name Shuffle18
+  tile_color 0x3f633800
+  xpos 594
+  ypos 165
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  alpha black
+  name ShuffleCopy1
+  xpos 860
+  ypos 165
+ }
+ ShuffleCopy {
+  inputs 2
+  blue blue
+  alpha black
+  name ShuffleCopy2
+  xpos 860
+  ypos 209
+ }
+ Dot {
+  name Dot3
+  selected true
+  xpos 889
+  ypos 549
+ }
+set N32b2d880 [stack 0]
+ Dot {
+  name Dot4
+  selected true
+  xpos 973
+  ypos 549
+ }
+set N32b2fba0 [stack 0]
+ Dot {
+  name Dot7
+  selected true
+  xpos 1170
+  ypos 549
+ }
+set N32b32000 [stack 0]
+ Dot {
+  name Dot6
+  selected true
+  xpos 1248
+  ypos 549
+ }
+set N32b34460 [stack 0]
+ Dot {
+  name Dot9
+  selected true
+  xpos 1493
+  ypos 549
+ }
+set N32b368c0 [stack 0]
+ Dot {
+  name Dot10
+  selected true
+  xpos 1588
+  ypos 549
+ }
+ Dot {
+  name Dot8
+  selected true
+  xpos 1588
+  ypos 679
+ }
+push $N32b368c0
+ Expression {
+  temp_name0 f
+  temp_expr0 2
+  expr2 "b > (r+g)/f ? (r+g)/f  : b"
+  name DespillBlue
+  tile_color 0x4fffff
+  selected true
+  xpos 1464
+  ypos 614
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge3
+  selected true
+  xpos 1464
+  ypos 680
+ }
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name Shuffle3
+  tile_color 0x3d3f8e00
+  selected true
+  xpos 1464
+  ypos 736
+ }
+push $N32b34460
+ Dot {
+  name Dot5
+  selected true
+  xpos 1248
+  ypos 674
+ }
+push $N32b32000
+ Expression {
+  temp_name0 f
+  temp_expr0 2
+  expr1 "g > (r+b)/f ? (b+r)/f  : g"
+  name DespillGreen
+  tile_color 0xff00ff
+  selected true
+  xpos 1141
+  ypos 611
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge2
+  selected true
+  xpos 1141
+  ypos 675
+ }
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name Shuffle2
+  tile_color 0x3f633800
+  selected true
+  xpos 1141
+  ypos 717
+ }
+push $N32b2fba0
+ Dot {
+  name Dot2
+  selected true
+  xpos 973
+  ypos 659
+ }
+push $N32b2d880
+ Expression {
+  temp_name0 f
+  temp_expr0 2
+  expr0 "r > (b+g)/f ? (b+g)/f  : r"
+  name DespillRed
+  tile_color 0xff0000ff
+  selected true
+  xpos 860
+  ypos 615
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge1
+  selected true
+  xpos 860
+  ypos 660
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle1
+  tile_color 0x93000000
+  selected true
+  xpos 860
+  ypos 713
+ }
+push $N32a00480
+ Dot {
+  name Dot26
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos 380
+  ypos 477
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 b-r-g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression17
+  label B-R-G
+  xpos 351
+  ypos 526
+ }
+push $N32a00480
+ Dot {
+  name Dot24
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos 233
+  ypos 471
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 g-r-b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression15
+  label G-R-B
+  xpos 204
+  ypos 524
+ }
+push $N32a00480
+ Dot {
+  name Dot22
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos 41
+  ypos 467
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 r-g-b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression13
+  label R-G-B
+  xpos 12
+  ypos 527
+ }
+push $N32a00480
+ Dot {
+  name Dot30
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -367
+  ypos 358
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (b-r)+(b-g)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression21
+  label (B-R)+(B-G)
+  xpos -396
+  ypos 412
+ }
+push $N32a00480
+ Dot {
+  name Dot29
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -490
+  ypos 359
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (g-r)+(g-b)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression20
+  label (G-R)+(G-B)
+  xpos -519
+  ypos 407
+ }
+push $N32a00480
+ Dot {
+  name Dot28
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -640
+  ypos 366
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (r-g)+(r-b)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression19
+  label (R-G)+(R-B)
+  xpos -669
+  ypos 409
+ }
+push $N32a00480
+ Dot {
+  name Dot15
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -954
+  ypos 374
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (g+b)-r
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression6
+  label "(G+B) - R"
+  xpos -983
+  ypos 452
+ }
+push $N32a00480
+ Dot {
+  name Dot14
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1061
+  ypos 376
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (r+b)-g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression5
+  label "(R+B) - G"
+  xpos -1090
+  ypos 450
+ }
+push $N32a00480
+ Dot {
+  name Dot13
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1157
+  ypos 376
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 (r+g)-b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression4
+  label "(R+G) - B"
+  xpos -1186
+  ypos 449
+ }
+push $N32a00480
+ Dot {
+  name Dot21
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1242
+  ypos 592
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 g-b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression12
+  label G-B
+  xpos -1271
+  ypos 630
+ }
+push $N32a00480
+ Dot {
+  name Dot20
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1351
+  ypos 592
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 b-g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression11
+  label B-G
+  xpos -1380
+  ypos 649
+ }
+push $N32a00480
+ Dot {
+  name Dot19
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1470
+  ypos 600
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 r-b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression10
+  label R-B
+  xpos -1499
+  ypos 659
+ }
+push $N32a00480
+ Dot {
+  name Dot18
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1583
+  ypos 610
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 b-r
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression9
+  label B-R
+  xpos -1612
+  ypos 680
+ }
+push $N32a00480
+ Dot {
+  name Dot17
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1727
+  ypos 614
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 g-r
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression8
+  label G-R
+  xpos -1756
+  ypos 699
+ }
+push $N32a00480
+ Dot {
+  name Dot16
+  note_font " Bold Bold"
+  note_font_size 30
+  xpos -1856
+  ypos 617
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 r-g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression7
+  label R-G
+  xpos -1885
+  ypos 714
+ }
+ Switch {
+  inputs 18
+  which {{parent.operation}}
+  name Switch1
+  label "\[value which]"
+  xpos -564
+  ypos 827
+ }
+ Grade {
+  channels rgba
+  black_clamp false
+  name Grade1
+  xpos -564
+  ypos 956
+ }
+ Invert {
+  channels rgba
+  name Invert18
+  xpos -564
+  ypos 1005
+  disable {{!parent.invert}}
+ }
+ Switch {
+  inputs 4
+  which {{parent.viewer}}
+  name Switch2
+  label "\[value which]"
+  xpos -564
+  ypos 1129
+ }
+ Output {
+  name Output1
+  xpos -564
+  ypos 1298
+ }
+end_group

@@ -1,0 +1,217 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Reformat {
+ name Reformat26
+ selected true
+ xpos 22913
+ ypos 1322
+}
+Expression {
+ expr0 (x+.5)/width
+ expr1 (y+.5)/height
+ name UV
+ selected true
+ xpos 22913
+ ypos 1369
+}
+Expression {
+ expr0 (r*2*pi)
+ expr1 (g*pi)-(pi/2)
+ expr2 0
+ name UV_to_radian1
+ selected true
+ xpos 22913
+ ypos 1463
+}
+Expression {
+ expr0 cos(g)*cos(r)
+ expr1 sin(g)
+ expr2 sin(r)*cos(g)
+ name radian_to_normal1
+ selected true
+ xpos 22913
+ ypos 1503
+}
+Expression {
+ temp_name0 f1
+ temp_expr0 atan2(b,r)
+ temp_name1 f2
+ temp_expr1 asin(g)
+ expr0 "b > 0 ? f1 : (2*pi) + f1"
+ expr1 f2
+ expr2 0
+ name normal_to_radian2
+ selected true
+ xpos 22913
+ ypos 1543
+}
+Expression {
+ expr0 r/(2*pi)
+ expr1 (g+(pi/2))/pi
+ expr2 0
+ name radian_to_UV2
+ selected true
+ xpos 22913
+ ypos 1612
+}
+Read {
+ inputs 0
+ file_type exr
+ file "\[python \{Expression_path\} ]/img/helicopter.exr"
+ format "1934 1088 0 0 1934 1088 1 "
+ origset true
+ version 3
+ auto_alpha true
+ name Read3
+ selected true
+ xpos 23360
+ ypos 1185
+}
+add_layer {UVPass UVPass.NX UVPass.NY UVPass.NZ}
+Shuffle {
+ in UVPass
+ name Shuffle32
+ label UV
+ selected true
+ xpos 23360
+ ypos 1349
+}
+set N2ca73000 [stack 0]
+CheckerBoard2 {
+ inputs 0
+ name CheckerBoard17
+ selected true
+ xpos 23577
+ ypos 1277
+}
+STMap {
+ inputs 2
+ uv rgb
+ name STMap18
+ selected true
+ xpos 23577
+ ypos 1349
+}
+push $N2ca73000
+Expression {
+ expr0 (r*2*pi)
+ expr1 (g*pi)-(pi/2)
+ expr2 0
+ name UV_to_radian
+ selected true
+ xpos 23360
+ ypos 1429
+}
+Expression {
+ expr0 cos(g)*cos(r)
+ expr1 sin(g)
+ expr2 sin(r)*cos(g)
+ name radian_to_normal
+ selected true
+ xpos 23360
+ ypos 1468
+}
+Dot {
+ name Dot81
+ selected true
+ xpos 23393
+ ypos 1551
+}
+Expression {
+ expr3 max((r*norm.r)+(g*norm.g)+(b*norm.b),0)
+ name Expression58
+ label RELIGHT
+ selected true
+ xpos 23360
+ ypos 1599
+ addUserKnob {20 User}
+ addUserKnob {7 round l left/right R -100 100}
+ round -100
+ addUserKnob {7 around l up/down R -100 100}
+ addUserKnob {26 ""}
+ addUserKnob {7 rad}
+ rad {{cos(radians(around))}}
+ addUserKnob {7 lx}
+ lx {{rad*cos(radians(round))}}
+ addUserKnob {7 ly}
+ ly {{sin(radians(around))}}
+ addUserKnob {7 lz}
+ lz {{rad*sin(radians(round))}}
+ addUserKnob {18 norm}
+ norm {{lx/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {ly/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {lz/sqrt(pow2(lx)+pow2(ly)+pow2(lz))}}
+ addUserKnob {6 norm_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 norm_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+}
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle33
+ tile_color 0xffffffff
+ selected true
+ xpos 23360
+ ypos 1631
+}
+add_layer {uv_extra uv_extra.red uv_extra.green uv_extra.blue}
+Shuffle {
+ inputs 0
+ in uv_extra
+ in2 rgba
+ alpha alpha2
+ name Shuffle34
+ label "\[value in]"
+ selected true
+ xpos 23968
+ ypos 1331
+}
+Premult {
+ name Premult2
+ selected true
+ xpos 23968
+ ypos 1422
+}
+Expression {
+ expr0 (r*2*pi)
+ expr1 (g*pi)-(pi/2)
+ expr2 0
+ name UV_to_radian2
+ selected true
+ xpos 23968
+ ypos 1505
+}
+Expression {
+ expr0 cos(g)*cos(r)
+ expr1 sin(g)
+ expr2 sin(r)*cos(g)
+ name radian_to_normal2
+ selected true
+ xpos 23968
+ ypos 1544
+}
+Expression {
+ expr3 max((r*norm.r)+(g*norm.g)+(b*norm.b),0)
+ name Expression59
+ label RELIGHT
+ selected true
+ xpos 23968
+ ypos 1668
+ addUserKnob {20 User}
+ addUserKnob {7 round l left/right R -100 100}
+ round -13
+ addUserKnob {7 around l up/down R -100 100}
+ around 38
+ addUserKnob {26 ""}
+ addUserKnob {7 rad}
+ rad {{cos(radians(around))}}
+ addUserKnob {7 lx}
+ lx {{rad*cos(radians(round))}}
+ addUserKnob {7 ly}
+ ly {{sin(radians(around))}}
+ addUserKnob {7 lz}
+ lz {{rad*sin(radians(round))}}
+ addUserKnob {18 norm}
+ norm {{lx/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {ly/sqrt(pow2(lx)+pow2(ly)+pow2(lz))} {lz/sqrt(pow2(lx)+pow2(ly)+pow2(lz))}}
+ addUserKnob {6 norm_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 norm_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+}

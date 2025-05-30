@@ -1,5 +1,6 @@
 import nuke
 import os
+import W_hotbox, W_hotboxManager
 # from Custom import autoSelect #AutoRotoNode
 
 toolbar = nuke.menu("Nodes")

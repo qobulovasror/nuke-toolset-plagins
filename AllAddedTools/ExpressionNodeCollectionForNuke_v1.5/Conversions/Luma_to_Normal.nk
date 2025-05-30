@@ -1,0 +1,124 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Saturation {
+ saturation 0
+ name Saturation3
+ selected true
+ xpos 19977
+ ypos 1698
+}
+Blur {
+ channels rgba
+ size 2
+ name Blur5
+ label DETAILS
+ selected true
+ xpos 19977
+ ypos 1789
+}
+Multiply {
+ channels rgb
+ name Multiply2
+ label INTENSITY
+ selected true
+ xpos 19977
+ ypos 1841
+}
+Dot {
+ name Dot41
+ selected true
+ xpos 20010
+ ypos 1886
+}
+set N28410400 [stack 0]
+Matrix {
+ matrix {
+     {2 0 -2}
+     {1 0 -1}
+     {2 0 -2}
+   }
+ name Matrix3
+ selected true
+ xpos 19911
+ ypos 1952
+}
+push $N28410400
+Matrix {
+ matrix {
+     {-2 -1 -2}
+     {0 0 0}
+     {2 1 2}
+   }
+ name Matrix4
+ selected true
+ xpos 20048
+ ypos 1954
+}
+ShuffleCopy {
+ inputs 2
+ red red
+ blue black
+ alpha black
+ name ShuffleCopy2
+ selected true
+ xpos 19979
+ ypos 2013
+}
+Expression {
+ expr0 r
+ expr1 g
+ expr2 1
+ name Expression54
+ label "add B channel"
+ selected true
+ xpos 19979
+ ypos 2043
+}
+set N28411400 [stack 0]
+Dot {
+ name Dot42
+ selected true
+ xpos 20139
+ ypos 2049
+}
+Grade {
+ white 0.5
+ add 0.5
+ black_clamp false
+ name Grade4
+ label NORMALIZE
+ selected true
+ xpos 20106
+ ypos 2111
+}
+push $N28411400
+Switch {
+ inputs 2
+ patterns {
+  {i0 ""}
+  {i1 ""}
+ }
+ name Switch2
+ label "\[value which]"
+ selected true
+ xpos 19979
+ ypos 2111
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove1
+ selected true
+ xpos 19979
+ ypos 2207
+}
+StickyNote {
+ inputs 0
+ name StickyNote6
+ label "<b>http://erwanleroy.com/vector-tools-for-nuke-tutorials-and-math/        ."
+ note_font_size 10
+ selected true
+ xpos 20099
+ ypos 1693
+}

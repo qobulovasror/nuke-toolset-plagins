@@ -1,0 +1,35 @@
+set cut_paste_input [stack 0]
+version 15.1 v1
+push $cut_paste_input
+Expression {
+ expr0 "r > 0 || b >0 || g >0 ? a : 0"
+ expr1 "r > 0 || b >0 || g >0 ? a : 0"
+ expr2 "r > 0 || b >0 || g >0 ? a : 0"
+ expr3 "r > 0 || b >0 || g >0 ? a : 0"
+ name Luma_To_Alpha
+ selected true
+ xpos 793
+ ypos -55
+}
+Expression {
+ inputs 0
+ expr0 "r > 0 || b >0 || g >0 ? 1 : 0"
+ expr1 "r > 0 || b >0 || g >0 ? 1 : 0"
+ expr2 "r > 0 || b >0 || g >0 ? 1 : 0"
+ expr3 "r > 0 || b >0 || g >0 ? 1 : 0"
+ name Luma_To_Alpha_binary
+ selected true
+ xpos 922
+ ypos -56
+}
+Expression {
+ inputs 0
+ expr0 "r > 0 || b >0 || g >0 ? max(r,g,b) : 0"
+ expr1 "r > 0 || b >0 || g >0 ? max(r,g,b) : 0"
+ expr2 "r > 0 || b >0 || g >0 ? max(r,g,b) : 0"
+ expr3 "r > 0 || b >0 || g >0 ? max(r,g,b) : 0"
+ name Luma_To_Alpha_max
+ selected true
+ xpos 1053
+ ypos -58
+}
